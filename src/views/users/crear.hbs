@@ -1,0 +1,44 @@
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10">
+        <div class="col-md-4 mx-auto pt-5">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3>{{titulo}}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{accion}}">
+                        <div class="form-group">
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombre" class="form-control" value="{{usuario.nombre}}">
+                            <span class="text-danger">{{e.nombre}}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="apellido" id="apellido" placeholder="Apellido" class="form-control" value="{{usuario.apellido}}">
+                            <span class="text-danger">{{e.apellido}}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" placeholder="Email" class="form-control" value="{{usuario.email}}" {{#if leer}}readonly{{/if}}>
+                            <span class="text-danger">{{e.email}}</span>
+                        </div>
+                        <div class="form-group">
+                            <select name="rol" id="rol" class="form-control">
+                                {{#if usuario.rol}}
+                                <option>{{usuario.rol}}</option>
+                                {{/if}}
+                                <option>Rol</option>
+                                {{#each roles as |item|}}
+                                <option>{{item}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="text-danger">{{e.rol}}</span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">{{boton}}</button>
+                            <a href="/users" class="btn btn-sm btn-light">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

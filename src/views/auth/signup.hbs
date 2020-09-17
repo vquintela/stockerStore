@@ -1,0 +1,37 @@
+<div class="container p-4" id="contenedor">
+    <div class="row" id="App">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center back-signin">
+                <div class="card-header">
+                    <h3>Ey-Commerce</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/signup">
+                        <div class="form-group">
+                            <input type="text" name="nombre" placeholder="Nombre" class="form-control" autofocus value="{{usuario.nombre}}">
+                            <span class="text-danger">{{e.nombre}}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="apellido" placeholder="Apellido" class="form-control" value="{{usuario.apellido}}">
+                            <span class="text-danger">{{e.apellido}}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="email" placeholder="Email" class="form-control" value="{{usuario.email}}">
+                            <span class="text-danger">{{e.email}}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" placeholder="Password" class="form-control" value="{{usuario.password}}">
+                            <span class="text-danger">{{errorpassword}}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="verificarPassword" placeholder="Reingrese el Password" class="form-control" value="{{usuario.verificarPassword}}">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success btn-block btn-sm">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
