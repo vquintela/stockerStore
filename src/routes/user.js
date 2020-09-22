@@ -95,13 +95,27 @@ router.put('/estado/:id', async (req, res) => {
     res.status(200).json('Ok');
 });
 
-router.get('/buscar/:rol', async (req, res) => {
-    const usuarios = await User.find({rol: req.params.rol}).select('-password').lean();
+router.get('/buscar/:estado/:rol', async (req, res) => {
+    const rol = req.params.rol;
+    let estado = req.params.estado;
+    let usuarios
+    if (rol === 'todos') {
+        usuarios = await User.find().select('-password').lean();
+    } else {
+        usuarios = await User.find({rol: rol}).select('-password').lean();
+    }
+    if (estado !== 'todos') {
+        usuarios = usuarios.filter(user => user.estado == JSON.parse(estado));
+        estado = JSON.parse(estado) ? {nombre: 'activos', value: 'true'} : {nombre: 'bloqueados', value: 'false'};
+    } else {
+        estado = {nombre: 'Estado Usuario', value: 'todos'};
+    }
     const roles = User.schema.path('rol').enumValues;
     res.render('users', { 
         usuarios: usuarios,
         roles: roles,
-        rolActual: req.params.rol
+        rolActual: rol,
+        estadoActual: estado
     });
 });
 
