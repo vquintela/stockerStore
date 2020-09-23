@@ -1,1 +1,37 @@
-<h1>hello</h1>
+<div class="bg-secondary pb-5">
+    <div class="container text-center">
+        <h1 class="font-weight-bold font-italic pt-5">Contactanos</h1>
+        <form id="form-contacto" method="POST" action="/">
+            <div class="row mt-5 justify-content-md-center">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control border-0" name="nombre" placeholder="Nombre y Apellido" value="{{comentario.nombre}}">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control border-0" name="telefono" placeholder="Telefono" value="{{comentario.telefono}}">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control border-0" name="email" aria-describedby="emailHelp"
+                            placeholder="Email" value="{{comentario.email}}">
+                    </div>
+                    <div class="form-group">
+                        <select name="sector" class="form-control mr-4 rol-buscar">
+                        <option>Atencion al publico</option>
+                        <option>Soporte</option>
+                        <option>Ventas </option>
+                        <option>Administracion</option>
+                        </select>
+                    </div>
+                    <button id="contactar" class="btn btn-primary border-0 btn-block mb-3">Contactar</button>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <textarea class="form-control border-0" rows="8" name="comentario" value="{{comentario.comentario}}"
+                            aria-describedby="comentario" placeholder="Comentario" required></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/js/index-view.js"></script>

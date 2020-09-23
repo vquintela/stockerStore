@@ -27,10 +27,10 @@ mailer.signup = async (email, nombre, apellido, numberId) => {
         to: email,
         subject: 'MCR Validacion de Email',
         html: `
-                <h3><b>Bienvenido a Master Car Rental</b></h3><br><br>
+                <h3><b>Bienvenido a Ey-Commerce</b></h3><br><br>
                 <h3><b>¡Gracias por elegirnos:</b>${nombre} ${apellido}</h3><br><br>
                 <p>Para terminar con el proceso de registro ingrese al siguiente vinculo</p><br><br><br>
-                <br><a href="${link}">Haga click AQUI para verificar</a>"
+                <br><a href="${link}">Haga click AQUI para verificar</a>
             `
     });
 }
@@ -54,14 +54,15 @@ mailer.contacto = async (mail) => {
         from: direccion,
         to: mail.email, 
         cc: direccion,
-        subject: 'Gracias por contactarse con MANEJATE',
+        subject: 'Gracias por contactarse con Ey-Commerce',
         html:`
-            <h3><b>Manejate</b></h3><br><br>
-            <h3><b>Gracias por comunicarte con Manejate, en breve nos pondremos en contacto!</h3><br><br>
+            <h3><b>Ey-Commerce</b></h3><br><br>
+            <h3><b>Gracias por comunicarte con Ey-Commerce, en breve nos pondremos en contacto!</h3><br><br>
             <p>Su mensaje fue:</p><br><br><br>
             <p>Nombre y Apellido: ${mail.nombre}</p><br>
-            <p>Motivo de contacto: ${mail.contacto}</p><br>
+            <p>Motivo de contacto: ${mail.telefono}</p><br>
             <p>Su email: ${mail.email}</p><br>
+            <p>Sector Participante: ${mail.sector}</p><br>
             <p>Su comentario: ${mail.comentario}</p><br><br><br>
             <p>Este es un mail generado de forma automatica, no lo responda!</p>
         `
@@ -69,24 +70,24 @@ mailer.contacto = async (mail) => {
     return ret
 }
 
-mailer.reserva = async (reserva, user, moto, sede) => {
-    moment.locale('es')
-    const ret = await transporter.sendMail({
-        from: direccion,
-        to: user.email,
-        subject: 'Confirmacion de Reserva',
-        html: `
-            <h3><b>Gracias por confiar en MANEJATE</b></h3><br><br>
-            <h3><b>Confirmamos la reserva para:</b>${user.nombre} ${user.apellido}</h3><br><br>
-            <p>¡Recuerde no tomar cuando maneja!</p><br><br><br>
-            <p>Fecha de reserva: ${moment(reserva.fechaReserva).format('l')}</p>
-            <p>Fecha de entrega: ${moment(reserva.fechaEntrega).format('l')}</p>
-            <p>Fecha de devolución: ${moment(reserva.fechaDevolucion).format('l')}</p>
-            <p>Motocicleta: FALTA CONFIGURAR</p>
-            <p>Sede de entrega: FALTA CONFIGURAR</p>
-            <p>Sede de devolución: FALTA CONFIGURAR</p>
-        `
-    });
-}
+// mailer.reserva = async (reserva, user, moto, sede) => {
+//     moment.locale('es')
+//     const ret = await transporter.sendMail({
+//         from: direccion,
+//         to: user.email,
+//         subject: 'Confirmacion de Reserva',
+//         html: `
+//             <h3><b>Gracias por confiar en MANEJATE</b></h3><br><br>
+//             <h3><b>Confirmamos la reserva para:</b>${user.nombre} ${user.apellido}</h3><br><br>
+//             <p>¡Recuerde no tomar cuando maneja!</p><br><br><br>
+//             <p>Fecha de reserva: ${moment(reserva.fechaReserva).format('l')}</p>
+//             <p>Fecha de entrega: ${moment(reserva.fechaEntrega).format('l')}</p>
+//             <p>Fecha de devolución: ${moment(reserva.fechaDevolucion).format('l')}</p>
+//             <p>Motocicleta: FALTA CONFIGURAR</p>
+//             <p>Sede de entrega: FALTA CONFIGURAR</p>
+//             <p>Sede de devolución: FALTA CONFIGURAR</p>
+//         `
+//     });
+// }
 
 module.exports = mailer;
