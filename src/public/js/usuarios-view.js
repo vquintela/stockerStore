@@ -62,3 +62,10 @@ window.onload = () => {
         }, 2000)
     }
 }
+
+// Dropdown sidebar
+document.querySelectorAll('.productos-menu').forEach(btn => {
+    btn.addEventListener('click', e => {
+        e.target.nextElementSibling.firstChild.nextElementSibling.classList.toggle('menu-show')
+    });
+});
