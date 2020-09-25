@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Marca = require('../model/marca');
 const errorMessage = require('../lib/errorMessageValidation');
+const Producto = require('../model/producto');
 
 router.get('/', async (req, res) => {
     const marcas = await Marca.find().lean();
@@ -74,6 +75,7 @@ router.delete('/eliminar/:id', async (req, res) => {
 router.put('/estado/:id', async (req, res) => {
     const estado = req.body.estado;
     await Marca.findByIdAndUpdate({ _id: req.params.id }, { estado: !estado });
+    if (estado) await Producto.updateMany({estado: false}).where('marca_id').equals(req.params.id)
     req.flash('success', 'Estado Modificado de Forma Correcta');
     res.status(200).json('Ok');
 });

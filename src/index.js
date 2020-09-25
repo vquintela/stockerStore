@@ -24,7 +24,7 @@ app.engine('.hbs', exphbs({
     helpers: require('./lib/handlebars')
 }))
 app.set('view engine', '.hbs');
-app.use(multer({dest: path.join(__dirname, 'public/img')}).single('image'))
+app.use(multer({dest: path.join(__dirname, 'public/img')}).single('imagen'));
 
 //Midlewares
 app.use(session({
@@ -52,6 +52,7 @@ app.use(require('./routes/index'));
 app.use(require('./routes/auth'));
 app.use('/users', require('./routes/user'));
 app.use('/marcas', require('./routes/marca'));
+app.use('/productos', require('./routes/producto'));
 
 //Archivos Publicos
 app.use(express.static(path.join(__dirname, 'public')));

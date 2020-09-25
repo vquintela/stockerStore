@@ -1,0 +1,107 @@
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10">
+        <div class="d-flex align-items-center mt-3">
+            <div>
+                <h3 class="pl-5">PRODUCTOS</h3>
+            </div>
+            <div class="d-flex ml-auto align-items-center col-md-6">
+                <select id="rol" class="form-control mr-4 estado-buscar">
+                    {{#if estadoActual}}
+                    <option value="{{estadoActual.value}}">{{estadoActual.nombre}}</option>
+                    {{/if}}
+                    <option value="todos">Estado Productos</option>
+                    <option value='true'>activos</option>
+                    <option value="false">bloqueados</option>
+                </select>
+                <select id="rol" class="form-control mr-4 rol-buscar">
+                    {{#if rolActual}}
+                    <option>{{rolActual}}</option>
+                    {{/if}}
+                    <option>todos</option>
+                    {{#each roles as |item|}}
+                    <option>{{item}}</option>
+                    {{/each}}
+                </select>
+                <a class="btn btn-block btn-primary mr-2 btn-sm" href="/productos/crear"><i class="fas fa-tasks text-white"></i>
+                    Crear</a>
+            </div>
+        </div>
+        <div class="p-4" id="contenedor">
+            <div class="row justify-content-betwen" id="App">
+                <table class="table text-center" id="filas">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Destacado</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="insertar-filas">
+                        {{#each productos}}
+                        <tr>
+                            <th>
+                                <img src="img/{{imagen}}" alt="img" class="img-fluid" style="width: 40px;">
+                            </th>
+                            <th>{{nombre}}</th>
+                            <th>{{marca_id.marca}}</th>
+                            <th>{{modelo}}</th>
+                            <th>{{precio}}</th>
+                            <th>
+                                {{#if destacado}}
+                                Si
+                                {{else}}
+                                No
+                                {{/if}}
+                            </th>
+                            <th>
+                                {{#if marca_id.estado}}
+                                    {{#if estado}}
+                                    <button class="btn btn-sm btn-danger estado" data-id="{{_id}}"
+                                        estado-producto={{estado}}>
+                                        <i class="fas fa-user-slash"></i>
+                                        Bloquear
+                                    </button>
+                                    {{else}}
+                                    <button class="btn btn-sm btn-primary estado" data-id="{{_id}}"
+                                        estado-producto={{estado}}>
+                                        <i class="fas fa-user"></i>
+                                        Activar
+                                    </button>
+                                    {{/if}}
+                                {{else}}
+                                <a href="/marcas" class="btn btn-sm btn-warning">
+                                Marca Desactivada
+                                </a>
+                                {{/if}}
+                            </th>
+                            <th>
+                                <a class="btn btn-sm btn-success" href="/productos/{{_id}}">
+                                    <i class="fas fa-pen"></i>
+                                    Editar
+                                </a>
+                                <button class="btn btn-sm btn-danger eliminar" data-id="{{_id}}">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Eliminar
+                                </button>
+                            </th>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <th>
+                                <h3>No hay productos ingresados</h3>
+                            </th>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/productoIndex.js"></script>
