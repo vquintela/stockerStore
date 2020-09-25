@@ -62,20 +62,18 @@
                             <th>
                                 {{#if marca_id.estado}}
                                     {{#if estado}}
-                                    <button class="btn btn-sm btn-danger estado" data-id="{{_id}}"
+                                    <button class="btn btn-sm btn-outline-danger estado" data-id="{{_id}}"
                                         estado-producto={{estado}}>
-                                        <i class="fas fa-user-slash"></i>
-                                        Bloquear
+                                        Deshabilitar
                                     </button>
                                     {{else}}
-                                    <button class="btn btn-sm btn-primary estado" data-id="{{_id}}"
+                                    <button class="btn btn-sm btn-outline-primary estado" data-id="{{_id}}"
                                         estado-producto={{estado}}>
-                                        <i class="fas fa-user"></i>
-                                        Activar
+                                        Habilitar
                                     </button>
                                     {{/if}}
                                 {{else}}
-                                <a href="/marcas" class="btn btn-sm btn-warning">
+                                <a href="/marcas" class="btn btn-sm btn-outline-warning">
                                 Marca Desactivada
                                 </a>
                                 {{/if}}
