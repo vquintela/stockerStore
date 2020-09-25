@@ -1,10 +1,3 @@
-// Dropdown sidebar
-document.querySelectorAll('.productos-menu').forEach(btn => {
-    btn.addEventListener('click', e => {
-        e.target.nextElementSibling.firstChild.nextElementSibling.classList.toggle('menu-show')
-    });
-});
-
 // Card creacion producto
 document.getElementById("imagen").onchange = (e) => {
     let reader = new FileReader();
@@ -35,13 +28,4 @@ document.getElementById('marca').onchange = e => {
 
 document.getElementById('modelo').onchange = e => {
     document.getElementById('modelo-card').innerText = e.target.value;
-}
-
-window.onload = () => {
-    const message = document.getElementById('message-success');
-    if(message) {
-        setTimeout(() => {
-            message.remove();
-        }, 2000)
-    }
 }

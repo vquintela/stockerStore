@@ -1,19 +1,3 @@
-// Dropdown sidebar
-document.querySelectorAll('.productos-menu').forEach(btn => {
-    btn.addEventListener('click', e => {
-        e.target.nextElementSibling.firstChild.nextElementSibling.classList.toggle('menu-show')
-    });
-});
-
-window.onload = () => {
-    const message = document.getElementById('message-success');
-    if(message) {
-        setTimeout(() => {
-            message.remove();
-        }, 2000)
-    }
-}
-
 document.querySelectorAll('.eliminar').forEach(btn => btn.addEventListener('click', e => eliminar(e)));
 document.querySelectorAll('.estado').forEach(btn => btn.addEventListener('click', e => estado(e)));
 document.querySelector('.estado-buscar').addEventListener('change', () => filtrar());
@@ -39,28 +23,6 @@ const estado = async (e) => {
         });
         if (resp.ok) location.href = '/productos'
     }
-}
-
-const modal = (titulo, texto) => {
-    let mascara = document.getElementById('lamascara');
-    mascara.style.display = "block";
-    document.querySelector('body').style.overflowY = 'hidden';
-    document.getElementById('titulo-modal').innerText = titulo;
-    document.querySelector('#panelResultados').innerText = texto;
-    return new Promise((resolve, reject) => {
-        const btnCerrar = document.getElementById('cerrarModal');
-        btnCerrar.addEventListener("click", () => {
-            document.getElementById('lamascara').style.display = "none";
-            document.querySelector('body').style.overflowY = 'visible';
-            resolve(false);
-        });
-        const btnAceptar = document.getElementById('aceptarModal');
-        btnAceptar.addEventListener("click", () => {
-            document.getElementById('lamascara').style.display = "none";
-            document.querySelector('body').style.overflowY = 'visible';
-            resolve(true);
-        });
-    });
 }
 
 const filtrar = () => {
