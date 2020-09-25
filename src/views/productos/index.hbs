@@ -7,21 +7,10 @@
             </div>
             <div class="d-flex ml-auto align-items-center col-md-6">
                 <select id="rol" class="form-control mr-4 estado-buscar">
-                    {{#if estadoActual}}
-                    <option value="{{estadoActual.value}}">{{estadoActual.nombre}}</option>
-                    {{/if}}
-                    <option value="todos">Estado Productos</option>
-                    <option value='true'>activos</option>
-                    <option value="false">bloqueados</option>
+                    <option value="false">Categoria</option>
                 </select>
                 <select id="rol" class="form-control mr-4 rol-buscar">
-                    {{#if rolActual}}
-                    <option>{{rolActual}}</option>
-                    {{/if}}
-                    <option>todos</option>
-                    {{#each roles as |item|}}
-                    <option>{{item}}</option>
-                    {{/each}}
+                    <option>Subcategoria</option>
                 </select>
                 <a class="btn btn-block btn-primary mr-2 btn-sm" href="/productos/crear"><i class="fas fa-tasks text-white"></i>
                     Crear</a>
@@ -42,9 +31,9 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="insertar-filas">
+                    <tbody class="table table-sm text-center" id="insertar-filas">
                         {{#each productos}}
-                        <tr>
+                        <tr style="height: 70px;">
                             <th>
                                 <img src="img/{{imagen}}" alt="img" class="img-fluid" style="width: 40px;">
                             </th>
@@ -87,6 +76,10 @@
                                     <i class="fas fa-trash-alt"></i>
                                     Eliminar
                                 </button>
+                                <a class="btn btn-sm btn-primary" href="/productos/{{_id}}">
+                                    <i class="fas fa-comments"></i>
+                                    Comentarios
+                                </a>
                             </th>
                         </tr>
                         {{else}}

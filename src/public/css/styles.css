@@ -1,3 +1,8 @@
+/* ESTILO TABLA CENTRADA VERTICALMENTE */
+.table th {
+	vertical-align: middle !important;
+}
+
 /* NAVBAR */
 .btn-sidebar {
     cursor: pointer;
