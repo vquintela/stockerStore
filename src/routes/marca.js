@@ -7,7 +7,7 @@ const Producto = require('../model/producto');
 router.get('/', async (req, res) => {
     const marcas = await Marca.find().lean();
     res.render('marcas/', {
-        titulo: 'Agregar Marca',
+        titulo: 'Agregar marca',
         boton: 'Guardar',
         action: '/marcas',
         marcas: marcas
