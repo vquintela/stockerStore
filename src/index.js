@@ -53,6 +53,7 @@ app.use(require('./routes/auth'));
 app.use('/users', require('./routes/user'));
 app.use('/marcas', require('./routes/marca'));
 app.use('/productos', require('./routes/producto'));
+app.use('/categorias', require('./routes/categoria'));
 
 //Archivos Publicos
 app.use(express.static(path.join(__dirname, 'public')));

@@ -1,0 +1,101 @@
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10">
+        <div class="d-flex align-items-center mt-3">
+            <div>
+                <h3 class="pl-5">Categorías</h3>
+            </div>
+            <div class="d-flex ml-auto align-items-center col-md-4">
+                <select id="rol" class="form-control mr-4 estado-buscar">
+                    {{#if estadoActual}}
+                    <option value="{{estadoActual.value}}">{{estadoActual.nombre}}</option>
+                    {{/if}}
+                    <option value="todos">Estado categorías</option>
+                    <option value="true">Activas</option>
+                    <option value="false">Inactivos</option>
+                </select>
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="row justify-content-betwen mt-3" id="App">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3>{{titulo}}</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{action}}" id="form-cat">
+                            <div class="form-group">
+                                <input type="text" name="nombre" placeholder="Nombre de la categoría"
+                                    class="form-control" value="{{value}}">
+                                <span class="text-danger">{{e.nombre}}</span>
+                            </div>
+
+                            <div class="form-group">
+                                <select name="categoriaPadre" class="form-control mr-4 estado-buscar">
+                                    <option value="">Categoría padre</option>
+                                    {{#each categorias}}
+                                    <option value="{{_id}}">{{nombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-sm btn-block"
+                                    id="btn-cat">{{boton}}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8" id="contenedor">
+                <table class="table text-center" id="filas">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="insertar-filas">
+                        {{#each categorias}}
+                        <tr>
+                            <th>{{nombre}}</th>
+                            <th>
+                                {{#if estado}}
+                                <button class="btn btn-sm btn-outline-danger estado" data-id="{{_id}}"
+                                    estado-categoria={{estado}}>
+                                    Deshabilitar
+                                </button>
+                                {{else}}
+                                <button class="btn btn-sm btn-outline-primary estado" data-id="{{_id}}"
+                                    estado-categoria={{estado}}>
+                                    Habilitar
+                                </button>
+                                {{/if}}
+                            </th>
+                            <th>
+                                <a class="btn btn-sm btn-success" href="/categorias/editar/{{_id}}">
+                                    <i class="fas fa-pen"></i>
+                                    Editar
+                                </a>
+                                <button class="btn btn-sm btn-danger eliminar" data-id="{{_id}}">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Eliminar
+                                </button>
+                            </th>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <th>
+                                <h3>No hay categorías ingresadas</h3>
+                            </th>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/categorias-view.js"></script>
