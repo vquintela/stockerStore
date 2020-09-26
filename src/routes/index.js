@@ -1,9 +1,27 @@
 const express = require('express');
 const mailer = require('../lib/mailer');
 const router = express.Router();
+const Productos = require('../model/producto');
 
 router.get('/', async (req, res) => {
-    res.render('');
+    const count = await Productos.countDocuments().where('estado').equals(true).where('destacado').equals(true);
+    const productos = await Productos.find()
+        .where('estado').equals(true)
+        .where('destacado').equals(true)
+        .populate({ path: 'marca_id' })
+        .lean();
+    const list = [];
+    const number = [];
+    while (list.length < 6) {
+        const rand = Math.floor(Math.random() * count);
+        if (!number.includes(rand)) {
+            number.push(rand);
+            list.push(productos[rand])
+        }
+    }
+    res.render('', {
+        productos: list
+    });
 });
 
 router.post('/', async (req, res) => {
@@ -16,9 +34,8 @@ router.post('/', async (req, res) => {
         return
     }
     mailer.contacto({nombre, telefono, email, sector, comentario});
-    res.render('', {
-        success: 'Contacto enviado de forma correcta'
-    });
+    req.flash('success', 'Contacto enviado de forma correcta')
+    res.redirect('/');
 });
 
 module.exports = router;
