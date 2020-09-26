@@ -8,7 +8,13 @@ const categoriaSchema = new Schema({
     },
     categoriaPadre: {
         type: Schema.Types.ObjectId,
-        ref: 'categoriaPadre'
+        required: false,
+        ref: 'categoria'
+    },
+    estado: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 });
 
