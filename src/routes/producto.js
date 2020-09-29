@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Marca = require('../model/marca');
-const Producto= require('../model/producto');
+const Producto = require('../model/producto');
+const Categoria = require('../model/categoria');
 const errorMessage = require('../lib/errorMessageValidation');
 const path = require('path');
 const fs = require('fs-extra');
@@ -15,11 +16,13 @@ router.get('/', async (req, res) => {
 
 router.get('/crear', async (req, res) => {
     const marcas = await Marca.find().where('estado').equals(true).lean();
+    const categorias = await Categoria.find().where('estado').equals(true).lean();
     res.render('productos/crear', {
         titulo: 'Crear Producto',
         action: '/productos/crear',
         boton: 'Crear',
-        marcas: marcas
+        marcas: marcas,
+        categorias: categorias
     });
 });
 
@@ -39,25 +42,41 @@ router.post('/crear', async (req, res) => {
         } else {
             await fs.unlink(imagePath);
             const marcas = await Marca.find().where('estado').equals(true).lean();
+            marcas.forEach(mar => {
+                if(mar._id == values.marca_id) values.marca_id = mar;
+            });
+            const categorias = await Categoria.find().where('estado').equals(true).lean();
+            categorias.forEach(cat => {
+                if(cat._id == values.id_prod_cat) values.id_prod_cat = cat;
+            });
             res.render('productos/crear', {
                 titulo: 'Crear Producto',
                 action: '/productos/crear',
                 boton: 'Crear',
                 marcas: marcas,
                 danger: 'Imagen no soportada',
-                producto: values
+                producto: values,
+                categorias: categorias
             });
             return
         }
     } else {
         const marcas = await Marca.find().where('estado').equals(true).lean();
+        marcas.forEach(mar => {
+            if(mar._id == values.marca_id) values.marca_id = mar;
+        });
+        const categorias = await Categoria.find().where('estado').equals(true).lean();
+        categorias.forEach(cat => {
+            if(cat._id == values.id_prod_cat) values.id_prod_cat = cat;
+        });
         res.render('productos/crear', {
             titulo: 'Crear Producto',
             action: '/productos/crear',
             boton: 'Crear',
             marcas: marcas,
             danger: 'Debe ingresar una imagen',
-            producto: values
+            producto: values,
+            categorias: categorias
         });
         return
     }
@@ -68,6 +87,13 @@ router.post('/crear', async (req, res) => {
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
         const marcas = await Marca.find().where('estado').equals(true).lean();
+        marcas.forEach(mar => {
+            if(mar._id == values.marca_id) values.marca_id = mar;
+        });
+        const categorias = await Categoria.find().where('estado').equals(true).lean();
+        categorias.forEach(cat => {
+            if(cat._id == values.id_prod_cat) values.id_prod_cat = cat;
+        });
         if(producto.imgen != 'sinimagen.png') {
             await fs.unlink(path.resolve('./src/public/img/' + producto.imagen));
         }
@@ -77,7 +103,8 @@ router.post('/crear', async (req, res) => {
             boton: 'Crear',
             marcas: marcas,
             producto: values,
-            e: mensaje
+            e: mensaje,
+            categorias: categorias
         });
         return;
     }
@@ -93,14 +120,18 @@ router.delete('/eliminar/:id', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const producto = await Producto.findById({_id: req.params.id}).populate({ path: 'marca_id', select: 'marca'}).lean();
+    const producto = await Producto.findById({_id: req.params.id})
+        .populate({ path: 'marca_id id_prod_cat', select: 'marca nombre'})
+        .lean();
     const marcas = await Marca.find().where('estado').equals(true).lean();
+    const categorias = await Categoria.find().where('estado').equals(true).lean();
     res.render('productos/crear', {
         titulo: 'Editar Producto',
         action: `/productos/${producto._id}`,
         boton: 'Editar',
         marcas: marcas,
         producto: producto,
+        categorias: categorias
     });
 });
 
@@ -118,17 +149,22 @@ router.post('/:id', async (req, res) => {
             await fs.unlink(imagePath);
             const marcas = await Marca.find().where('estado').equals(true).lean();
             marcas.forEach(mar => {
-                if(mar._id == values.marca_id) values.marca_id = mar
+                if(mar._id == values.marca_id) values.marca_id = mar;
             });
             const producto = await Producto.findById({_id: req.params.id}).select('imagen').lean();
             values.imagen = producto.imagen;
+            const categorias = await Categoria.find().where('estado').equals(true).lean();
+            categorias.forEach(cat => {
+                if(cat._id == values.id_prod_cat) values.id_prod_cat = cat;
+            });
             res.render('productos/crear', {
                 titulo: 'Editar Producto',
                 action: `/productos/${req.params.id}`,
                 boton: 'Editar',
                 marcas: marcas,
                 danger: 'Imagen no soportada',
-                producto: values
+                producto: values,
+                categorias: categorias
             });
             return;
         }
@@ -145,13 +181,18 @@ router.post('/:id', async (req, res) => {
         });
         const producto = await Producto.findById({_id: req.params.id}).select('imagen').lean();
         values.imagen = producto.imagen;
+        const categorias = await Categoria.find().where('estado').equals(true).lean();
+        categorias.forEach(cat => {
+            if(cat._id == values.id_prod_cat) values.id_prod_cat = cat;
+        });
         res.render('productos/crear', {
             titulo: 'Editar Producto',
             action: `/productos/${req.params.id}`,
             boton: 'Editar',
             marcas: marcas,
             producto: values,
-            e: mensaje
+            e: mensaje,
+            categorias: categorias
         });
         return;
     }

@@ -10,8 +10,17 @@
     </div>
     {{>navCategorias}}
     <div class="d-flex justify-content-end align-items-center mt-2">
-        <div class="col-md-2 m-0">
-            <div class="form-group">
+        {{!-- PAGINACION PRODUCTOS --}}
+        <nav class="ml-2" aria-label="Page navigation example">
+            <ul class="pagination">
+                {{#for paginacion actual}}
+                {{/for}}
+            </ul>
+        </nav>
+        {{!-- BUSQUEDA DESTACADOS --}}
+        <div class="col-md-6 m-0 d-flex">
+            <h3 class="ml-auto">Tipo de Producto:</h3>
+            <div class="form-group ml-2">
                 <select name="marca_id" id="marca" class="form-control">
                     {{#if producto.marca_id}}
                     <option value="{{producto.marca_id._id}}">{{producto.marca_id.marca}}
@@ -22,8 +31,10 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-2 m-0">
-            <div class="form-group">
+        {{!-- ORDEN A-Z Y Z-A --}}
+        <div class="col-md-3 m-0 d-flex">
+            <h3 class="ml-auto">Orden:</h3>
+            <div class="form-group ml-2">
                 <select name="marca_id" id="marca" class="form-control">
                     {{#if producto.marca_id}}
                     <option value="{{producto.marca_id._id}}">{{producto.marca_id.marca}}
@@ -41,4 +52,11 @@
             {{>cardProducto}}
         {{/each}}
     </div>
+    {{!-- PAGINACION PRODUCTOS --}}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {{#for paginacion actual}}
+            {{/for}}
+        </ul>
+    </nav>
 </div>

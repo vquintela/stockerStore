@@ -48,18 +48,25 @@ router.post('/', async (req, res) => {
     res.redirect('/');
 });
 
-router.get('/todos', async (req, res) => {
+router.get('/todos/:pagina', async (req, res) => {
+    const porPagina = 2;
+    const pagina = req.params.pagina || 1;
     const productos =  await Productos.find()
         .where('estado').equals(true)
         .populate({ path: 'marca_id', select: 'marca' })
+        .skip((porPagina * pagina) - porPagina)
+        .limit(porPagina)
         .lean();
+    const count = await Productos.countDocuments().where('estado').equals(true);
     const categorias = await Categorias.find()
         .where('estado').equals(true)
         .populate({ path: 'categoriaPadre' })
         .lean();
     res.render('productos', {
         productos:productos,
-        categorias: categorias
+        categorias: categorias,
+        paginacion: Math.ceil(count / porPagina),
+        actual: pagina
     });
 });
 
