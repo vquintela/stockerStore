@@ -18,7 +18,12 @@
         <hr>
         <p class="m-0">Descripción del Producto:</p>
         <p class="text-muted">{{producto.descripcion}}</p>
+        <hr>
         {{!-- <p>cantidad:</p> --}}
+        <a href="/carrito/agregar/{{producto._id}}" class="btn btn-dark btn-block">
+            <i class="fas fa-cart-plus mr-2"></i>
+            Agregar al carrito
+        </a>
         <hr>
         <h3 class="font-weight-bold text-muted font-italic">Comentar:</h3>
         <form action="">

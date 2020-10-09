@@ -1,0 +1,62 @@
+{{#if user}}
+<div class="sidebar-index">
+    {{>sidebar}}
+</div>
+<div class="btn-sidebar" id="btn-sidebar">
+    <div class="menu-btn" id="btn-menu">
+        <i class="fas fa-bars fa-2x"></i>
+    </div>
+</div>
+{{/if}}
+{{#if this.productos }}
+<div class="row mt-5">
+    <div class="container">
+        <table class="table text-center" id="filas">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio Unitario</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Parcial</th>
+                    <th scope="col">Accion</th>
+                </tr>
+            </thead>
+            <tbody id="insertar-filas">
+                {{#each productos}}
+                <tr>
+                    <td>
+                        <img src="/img/{{this.item.imagen}}" alt="image" class="img-fluid" style="width: 60px;">
+                    </td>
+                    <td>{{this.item.nombre}}</td>
+                    <td>{{this.item.precio}}</td>
+                    <td>{{this.qty}}</td>
+                    <td>{{this.price}}</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-danger text-danger">
+                            <i class="fas fa-trash-alt"></i>
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <hr>
+        <div class="row justify-content-end mr-3">
+            <strong>Total: {{precioTotal}}</strong>
+        </div>
+        <hr>
+        <div class="row justify-content-end mr-3 mb-5">
+            <a href="#" type="button" class="btn btn-success">Checkout</a>
+        </div>
+    </div>
+</div>
+{{ else }}
+<div class="row justify-content-md-center">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+        <h2 class="text-center pt-5 pb-5">No hay Productos Agregados</h2>
+        <a href="/" class="btn btn-sm btn-block btn-primary mt-5 mb-5">Seguir Comprando</a>
+    </div>
+</div>
+{{/if}}

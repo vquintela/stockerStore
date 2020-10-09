@@ -5,25 +5,34 @@
         </a>
         <div>
             <ul class="navbar-nav ml-auto">
-                {{#if user}}
-                <a href="/signup" class="nav-link text-primary btn-sm btn btn-outline-primary mr-2">
-                    <i class="fas fa-male"></i>
-                    Perfil
-                </a>
                 <li class="nav-item">
+                    <a class="nav-link  active" href="/carrito">
+                        <span class="fa-stack fa-2x has-badge" data-count="0" id="cart-navbar">
+                            <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+                {{#if user}}
+                <li class="nav-item mr-2 ml-2 my-auto">
+                    <a href="/signup" class="nav-link text-primary btn-sm btn btn-outline-primary mr-2">
+                        <i class="fas fa-male"></i>
+                        Perfil
+                    </a>
+                </li>
+                <li class="nav-item my-auto">
                     <a href="/logout" class="nav-link text-danger btn-sm btn btn-outline-danger">
                         <i class="fas fa-sign-out-alt"></i>
                         Salir
                     </a>
                 </li>
                 {{else}}
-                <li class="nav-item mr-2">
-                    <a href="/signin" class="nav-link text-success btn-sm btn btn-outline-success">
+                <li class="nav-item mr-2 my-auto">
+                    <a href="/signin" class="nav-link text-success btn-sm btn btn-outline-success ml-2">
                         <i class="fas fa-sign-in-alt mr-2"></i>
                         Ingresar
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item my-auto">
                     <a href="/signup" class="nav-link text-primary btn-sm btn btn-outline-primary">
                         <i class="fas fa-user-plus"></i>
                         Registrarse

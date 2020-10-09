@@ -5,16 +5,18 @@ const Productos = require('../model/producto');
 const Categorias = require('../model/categoria');
 
 router.get('/', async (req, res) => {
-    const count = await Productos.countDocuments().where('estado').equals(true).where('destacado').equals(true);
-    const productos = await Productos.find()
+    const [count, productos, categorias] = await Promise.all([
+        Productos.countDocuments().where('estado').equals(true).where('destacado').equals(true),
+        Productos.find()
         .where('estado').equals(true)
         .where('destacado').equals(true)
         .populate({ path: 'marca_id', select: 'marca' })
-        .lean();
-    const categorias = await Categorias.find()
+        .lean(),
+        Categorias.find()
         .where('estado').equals(true)
         .populate({ path: 'categoriaPadre' })
-        .lean();
+        .lean()
+    ]);
     let list = [];
     const number = [];
     if(count > 6) {
@@ -51,17 +53,19 @@ router.post('/', async (req, res) => {
 router.get('/todos/:pagina', async (req, res) => {
     const porPagina = 2;
     const pagina = req.params.pagina || 1;
-    const productos =  await Productos.find()
-        .where('estado').equals(true)
-        .populate({ path: 'marca_id', select: 'marca' })
-        .skip((porPagina * pagina) - porPagina)
-        .limit(porPagina)
-        .lean();
-    const count = await Productos.countDocuments().where('estado').equals(true);
-    const categorias = await Categorias.find()
-        .where('estado').equals(true)
-        .populate({ path: 'categoriaPadre' })
-        .lean();
+    const [count, productos, categorias] = await Promise.all([
+        Productos.countDocuments().where('estado').equals(true),
+        Productos.find()
+            .where('estado').equals(true)
+            .populate({ path: 'marca_id', select: 'marca' })
+            .skip((porPagina * pagina) - porPagina)
+            .limit(porPagina)
+            .lean(),
+        Categorias.find()
+            .where('estado').equals(true)
+            .populate({ path: 'categoriaPadre' })
+            .lean()
+    ]);
     res.render('productos', {
         productos:productos,
         categorias: categorias,
@@ -71,13 +75,15 @@ router.get('/todos/:pagina', async (req, res) => {
 });
 
 router.get('/ver/:id', async (req, res) => {
-    const producto = await Productos.findById({_id: req.params.id})
-        .populate({ path: 'marca_id', select: 'marca' })
-        .lean();
-    const categorias = await Categorias.find()
-        .where('estado').equals(true)
-        .populate({ path: 'categoriaPadre' })
-        .lean();
+    const [producto, categorias] = await Promise.all([
+        Productos.findById({_id: req.params.id})
+            .populate({ path: 'marca_id', select: 'marca' })
+            .lean(),
+        Categorias.find()
+            .where('estado').equals(true)
+            .populate({ path: 'categoriaPadre' })
+            .lean()
+    ]);
     res.render('vistaProducto', {
        producto: producto,
        categorias: categorias 
