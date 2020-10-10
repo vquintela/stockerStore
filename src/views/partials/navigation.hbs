@@ -7,7 +7,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link  active" href="/carrito">
-                        <span class="fa-stack fa-2x has-badge" data-count="0" id="cart-navbar">
+                        <span class="fa-stack fa-2x has-badge" data-count="{{#if session.carrito.totalQty}}{{session.carrito.totalQty}}{{else}}0{{/if}}" id="cart-navbar">
                             <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
                         </span>
                     </a>
