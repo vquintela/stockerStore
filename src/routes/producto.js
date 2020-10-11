@@ -3,6 +3,7 @@ const router = express.Router();
 const Marca = require('../model/marca');
 const Producto = require('../model/producto');
 const Categoria = require('../model/categoria');
+const Comentario = require('../model/comentario');
 const errorMessage = require('../lib/errorMessageValidation');
 const path = require('path');
 const fs = require('fs-extra');
@@ -203,6 +204,13 @@ router.put('/estado/:id', async (req, res) => {
     await Producto.findByIdAndUpdate({ _id: req.params.id }, { estado: !estado });
     req.flash('success', 'Estado Modificado de Forma Correcta');
     res.status(200).json('Ok');
+});
+
+router.post('/comentar/:id', (req, res)=>{
+    const comentario = new Comentario({ ...req.body });
+    comentario.save()
+    .then(response => res.send(response))
+
 });
 
 module.exports = router;
