@@ -28,6 +28,40 @@ document.querySelectorAll('.productos-menu').forEach(btn => {
     });
 });
 
+//ANIMACION BTN SIDEBAR
+const btnSidebar = document.getElementById('btn-sidebar');
+if (btnSidebar) btnSidebar.addEventListener('click', () => {
+  document.querySelector('.sidebar-index').classList.toggle('show-sidebar');
+});
+
+const comentar = (id) => {
+    const comentario = {
+        producto: id,
+        contenido: document.querySelector('#comentario').value,
+        ranqueo: parseInt(document.querySelector('input[type="radio"]:checked').value)
+    }
+    fetch(`/productos/comentar/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(comentario)
+    })
+        .then(res => res.json())
+        .then(data => {
+            const comentario = document.createElement('p', {is: 'comentario'});
+            comentario.classList.add('text-muted');
+            const contenido = document.createTextNode(data.contenido); 
+            comentario.appendChild(contenido);
+            document.querySelector('[comentarios]').appendChild(comentario);
+        });
+}
+
+document.querySelector('#btn-comentario').addEventListener('click', ()=>{
+    const producto = document.querySelector('#producto').value;
+    comentar(producto);
+});
+
 // SACA EL MENSAJE DE REQ FLASH
 window.onload = () => {
     const message = document.getElementById('message-success');

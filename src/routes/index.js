@@ -3,6 +3,7 @@ const mailer = require('../lib/mailer');
 const router = express.Router();
 const Productos = require('../model/producto');
 const Categorias = require('../model/categoria');
+const Comentarios = require('../model/comentario')
 
 router.get('/', async (req, res) => {
     const [count, productos, categorias] = await Promise.all([
@@ -75,18 +76,23 @@ router.get('/todos/:pagina', async (req, res) => {
 });
 
 router.get('/ver/:id', async (req, res) => {
-    const [producto, categorias] = await Promise.all([
+    const [producto, categorias, comentarios] = await Promise.all([
         Productos.findById({_id: req.params.id})
             .populate({ path: 'marca_id', select: 'marca' })
             .lean(),
         Categorias.find()
             .where('estado').equals(true)
             .populate({ path: 'categoriaPadre' })
+            .lean(),
+        Comentarios.find({producto: req.params.id})
+            .sort({fecha: -1})
+            .limit(5)
             .lean()
     ]);
     res.render('vistaProducto', {
        producto: producto,
-       categorias: categorias 
+       categorias: categorias,
+       comentarios: comentarios
     });
 });
 
