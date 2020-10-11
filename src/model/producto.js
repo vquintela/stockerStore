@@ -13,7 +13,8 @@ const productoSchema = new Schema({
     },
     id_prod_cat: {
         type: Schema.Types.ObjectId,
-        ref: "producto_categoria",
+        ref: "categoria",
+        required: [true, '¡Campo obligatorio!'],
     },
     marca_id: {
         type: Schema.Types.ObjectId,
@@ -21,6 +22,12 @@ const productoSchema = new Schema({
         required: [true, '¡Campo obligatorio!']
     },
     precio: {
+        type: Number,
+        required: [true, '¡Campo requerido!'],
+        min: [0, '¡Solo Valor positivo!'],
+        max: [1000000, '¡Valor Exagerado!']
+    },
+    cantidad: {
         type: Number,
         required: [true, '¡Campo requerido!'],
         min: [0, '¡Solo Valor positivo!'],

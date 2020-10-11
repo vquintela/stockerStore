@@ -29,3 +29,5 @@ document.getElementById('marca').onchange = e => {
 document.getElementById('modelo').onchange = e => {
     document.getElementById('modelo-card').innerText = e.target.value;
 }
+
+// INSERTA SUBCATEGORIAS

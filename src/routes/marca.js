@@ -36,8 +36,10 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/editar/:id', async (req, res) => {
-    const marca = await Marca.findById({ _id: req.params.id }).lean();
-    const marcas = await Marca.find().lean();
+    const [marca, marcas] = await Promise.all([
+        Marca.findById({ _id: req.params.id }).lean(),
+        Marca.find().lean()
+    ]);
     res.render('marcas/', {
         titulo: 'Editar Marca',
         boton: 'Editar',

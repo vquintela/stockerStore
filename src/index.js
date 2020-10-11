@@ -41,6 +41,7 @@ app.use(passport.session());
 
 //Variables Globales
 app.use((req, res, next) => {
+    app.locals.session = req.session;
     app.locals.user = req.user;
     app.locals.success = req.flash('success');
     app.locals.danger = req.flash('danger');
@@ -54,6 +55,7 @@ app.use('/users', require('./routes/user'));
 app.use('/marcas', require('./routes/marca'));
 app.use('/productos', require('./routes/producto'));
 app.use('/categorias', require('./routes/categoria'));
+app.use('/carrito', require('./routes/carrito'));
 
 //Archivos Publicos
 app.use(express.static(path.join(__dirname, 'public')));
