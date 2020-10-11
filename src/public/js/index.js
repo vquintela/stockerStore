@@ -49,8 +49,9 @@ const btnProd = document.querySelector('.boton-agregar-producto');
 if(btnProd) btnProd.addEventListener('click', e => {
     const id = e.target.getAttribute('data-id');
     const inputCantidad = document.querySelector('.cantidad-productos');
-    const maxCant = inputCantidad.getAttribute('max');
-    const cantidad = inputCantidad.value;
+    const maxCant = parseInt(inputCantidad.getAttribute('max'));
+    const cantidad = parseInt(inputCantidad.value);
+    console.log(cantidad)
     if(cantidad > 0 && cantidad < maxCant) {
         location.href = `/carrito/agregar/${id}/${cantidad}`;
     } else {

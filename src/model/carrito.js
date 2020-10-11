@@ -15,7 +15,7 @@ module.exports = function cart(oldCart) {
         storedItem.qty += parseInt(cantidad);
         storedItem.price = storedItem.item.precio * storedItem.qty;
         this.totalQty = Object.keys(this.items).length;
-        this.totalPrice += storedItem.price;
+        this.totalPrice = storedItem.price;
     }
 
     this.reduceByOne = id => {
