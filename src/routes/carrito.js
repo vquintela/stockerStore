@@ -6,13 +6,13 @@ const Producto = require('../model/producto');
 router.get("/agregar/:id/:cantidad", async (req, res) => {
   const productId = req.params.id;
   const cantidad = req.params.cantidad
-  const carrito = new Carrito(req.session.carrito ? req.session.carrito : {});
   try {
-    const producto = await Producto.findById(productId);
-    if (producto.cantidad <= cantidad) {
-      carrito.add(producto, productId);
+    const carrito = new Carrito(req.session.carrito ? req.session.carrito : {});
+    const producto = await Producto.findById({_id: productId});
+    if (producto.cantidad >= cantidad && cantidad > 0) {
+      carrito.add(producto, productId, cantidad);
       req.session.carrito = carrito;
-    // console.log(req.session.carrito);
+      console.log(req.session.carrito);
       req.flash('success', 'Producto agregado correctamente');
       res.redirect("/");
     } else {

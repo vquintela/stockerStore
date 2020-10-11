@@ -23,11 +23,14 @@
             <p class="m-0">Descripción del Producto:</p>
             <p class="text-muted">{{producto.descripcion}}</p>
             <hr>
-            {{!-- <p>cantidad:</p> --}}
-            <a href="/carrito/agregar/{{producto._id}}" class="btn btn-dark btn-block">
+            <p class="text-muted">cantidad: {{producto.cantidad}}</p>
+            <input type="number" max="{{producto.cantidad}}" min="1" max="{{producto.cantidad}}" value="1"
+                class="mb-2 cantidad-productos"><br>
+            <span class="text-danger error-cantidad"></span>
+            <button data-id="{{producto._id}}" class="btn btn-dark btn-block boton-agregar-producto">
                 <i class="fas fa-cart-plus mr-2"></i>
                 Agregar al carrito
-            </a>
+            </button>
             <hr>
             <h3 class="font-weight-bold text-muted font-italic">Comentar:</h3>
             <input type="hidden" id="producto" value="{{producto._id}}" />
