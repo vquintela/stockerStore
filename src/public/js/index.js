@@ -43,3 +43,13 @@ const btnSidebar = document.getElementById('btn-sidebar');
 if (btnSidebar) btnSidebar.addEventListener('click', () => {
   document.querySelector('.sidebar-index').classList.toggle('show-sidebar');
 });
+
+// CANTIDAD DE PRODUCTOS EN VISTA DE PRODUCTO
+const btnProd = document.querySelector('.boton-agregar-producto');
+if(btnProd) btnProd.addEventListener('click', e => {
+    const id = e.target.getAttribute('data-id');
+    const inputCantidad = document.querySelector('.cantidad-productos');
+    const maxCant = inputCantidad.getAttribute('max');
+    const cantidad = inputCantidad.value;
+    if(cantidad > 0 && cantidad < maxCant) location.href = `/carrito/agregar/${id}/${cantidad}`;
+});
