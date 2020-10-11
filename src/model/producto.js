@@ -11,10 +11,10 @@ const productoSchema = new Schema({
         required: [true, '¡Campo obligatorio!'],
         maxlength: [1500,"¡Descripcion muy larga, maximo 1500 caracteres!"]
     },
-    // id_prod_cat: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "producto_categoria",
-    // },
+    id_prod_cat: {
+        type: Schema.Types.ObjectId,
+        ref: "producto_categoria",
+    },
     marca_id: {
         type: Schema.Types.ObjectId,
         ref: 'marca',
