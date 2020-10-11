@@ -51,5 +51,9 @@ if(btnProd) btnProd.addEventListener('click', e => {
     const inputCantidad = document.querySelector('.cantidad-productos');
     const maxCant = inputCantidad.getAttribute('max');
     const cantidad = inputCantidad.value;
-    if(cantidad > 0 && cantidad < maxCant) location.href = `/carrito/agregar/${id}/${cantidad}`;
+    if(cantidad > 0 && cantidad < maxCant) {
+        location.href = `/carrito/agregar/${id}/${cantidad}`;
+    } else {
+        document.querySelector('.error-cantidad').innerText = `La cantidad tiene que ser mayor a cero y menor a ${maxCant}`;
+    }
 });
