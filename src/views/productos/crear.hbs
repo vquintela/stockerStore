@@ -27,6 +27,11 @@
                                         <span class="text-danger">{{e.precio}}</span>
                                     </div>
                                     <div class="form-group">
+                                        <input type="number" name="cantidad" id="cantidad" placeholder="Cantidad"
+                                            class="form-control" value="{{producto.cantidad}}" min="1">
+                                        <span class="text-danger">{{e.cantidad}}</span>
+                                    </div>
+                                    <div class="form-group">
                                         <select id="categoria" name="id_prod_cat" class="form-control">
                                             {{#if producto.id_prod_cat}}
                                             <option value="{{producto.id_prod_cat._id}}">{{producto.id_prod_cat.nombre}}</option>

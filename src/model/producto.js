@@ -27,6 +27,12 @@ const productoSchema = new Schema({
         min: [0, '¡Solo Valor positivo!'],
         max: [1000000, '¡Valor Exagerado!']
     },
+    cantidad: {
+        type: Number,
+        required: [true, '¡Campo requerido!'],
+        min: [0, '¡Solo Valor positivo!'],
+        max: [1000000, '¡Valor Exagerado!']
+    },
     modelo: {
         type: String,
         required: [true, '¡Campo requerido!'],
