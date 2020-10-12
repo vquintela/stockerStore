@@ -30,7 +30,7 @@
                 <td>{{this.item.nombre}}</td>
                 <td>{{this.item.precio}}</td>
                 <td>
-                    <a href="/carrito/add/{{this.item._id}}">
+                    <a href="/carrito/add/{{this.item._id}}" data-cantidad="{{this.item.cantidad}}" id="add-producto" cantidad="{{this.qty}}">
                         +
                     </a>
                     {{this.qty}}

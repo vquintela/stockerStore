@@ -21,7 +21,7 @@ const modal = (titulo, texto) => {
     });
 }
     
-// Dropdown sidebar
+// DROPDOWN SIDEBAR
 document.querySelectorAll('.productos-menu').forEach(btn => {
     btn.addEventListener('click', e => {
         e.target.nextElementSibling.firstChild.nextElementSibling.classList.toggle('menu-show')
@@ -34,6 +34,38 @@ if (btnSidebar) btnSidebar.addEventListener('click', () => {
   document.querySelector('.sidebar-index').classList.toggle('show-sidebar');
 });
 
+// SACA EL MENSAJE DE REQ FLASH
+window.onload = () => {
+    const message = document.getElementById('message-success');
+    if(message) {
+        setTimeout(() => {
+            message.remove();
+        }, 2000)
+    }
+}
+
+// CANTIDAD DE PRODUCTOS EN VISTA DE PRODUCTO
+const btnProd = document.querySelector('.boton-agregar-producto');
+if(btnProd) btnProd.addEventListener('click', e => {
+    const id = e.target.getAttribute('data-id');
+    const inputCantidad = document.querySelector('.cantidad-productos');
+    const maxCant = parseInt(inputCantidad.getAttribute('max'));
+    const cantidad = parseInt(inputCantidad.value);
+    console.log(cantidad)
+    if(cantidad > 0 && cantidad < maxCant) {
+        location.href = `/carrito/agregar/${id}/${cantidad}`;
+    } else {
+        document.querySelector('.error-cantidad').innerText = `La cantidad tiene que ser mayor a cero y menor a ${maxCant}`;
+    }
+});
+
+// CANTIDAD PRODUCTO EN VISTA CARRITO
+const btnAddCant = document.querySelector('#add-producto');
+const cantidadMaxima = btnAddCant.getAttribute('data-cantidad');
+const cantidad = btnAddCant.getAttribute('cantidad');
+if (cantidad >= cantidadMaxima) btnAddCant.remove();
+
+// COMENTARIO
 const comentar = (id) => {
     const comentario = {
         producto: id,
@@ -62,33 +94,3 @@ document.querySelector('#btn-comentario').addEventListener('click', ()=>{
     comentar(producto);
 });
 
-// SACA EL MENSAJE DE REQ FLASH
-window.onload = () => {
-    const message = document.getElementById('message-success');
-    if(message) {
-        setTimeout(() => {
-            message.remove();
-        }, 2000)
-    }
-}
-
-//ANIMACION BTN SIDEBAR
-const btnSidebar = document.getElementById('btn-sidebar');
-if (btnSidebar) btnSidebar.addEventListener('click', () => {
-  document.querySelector('.sidebar-index').classList.toggle('show-sidebar');
-});
-
-// CANTIDAD DE PRODUCTOS EN VISTA DE PRODUCTO
-const btnProd = document.querySelector('.boton-agregar-producto');
-if(btnProd) btnProd.addEventListener('click', e => {
-    const id = e.target.getAttribute('data-id');
-    const inputCantidad = document.querySelector('.cantidad-productos');
-    const maxCant = parseInt(inputCantidad.getAttribute('max'));
-    const cantidad = parseInt(inputCantidad.value);
-    console.log(cantidad)
-    if(cantidad > 0 && cantidad < maxCant) {
-        location.href = `/carrito/agregar/${id}/${cantidad}`;
-    } else {
-        document.querySelector('.error-cantidad').innerText = `La cantidad tiene que ser mayor a cero y menor a ${maxCant}`;
-    }
-});

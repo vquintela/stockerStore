@@ -31,13 +31,13 @@ module.exports = function cart(oldCart) {
     }
 
     this.addByOne = id => {
+        if (this.items[id].qty >= this.items[id].item.cantidad) {
+            return -1;
+        }
+        
         this.items[id].qty++;
         this.items[id].price += this.items[id].item.precio;
         this.totalPrice += this.items[id].item.precio;
-
-        if (this.items[id].qty <= 0) {
-            delete this.items[id];
-        }
     }
 
     this.removeItem = function (id) {
