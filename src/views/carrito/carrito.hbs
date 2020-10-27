@@ -30,7 +30,7 @@
                 <td>{{this.item.nombre}}</td>
                 <td>{{this.item.precio}}</td>
                 <td>
-                    <a href="/carrito/add/{{this.item._id}}" data-cantidad="{{this.item.cantidad}}" id="add-producto" cantidad="{{this.qty}}">
+                    <a href="/carrito/add/{{this.item._id}}" data-cantidad="{{this.item.cantidad}}" class="add-producto" cantidad="{{this.qty}}">
                         +
                     </a>
                     {{this.qty}}
@@ -54,9 +54,49 @@
         <strong>Total: {{precioTotal}}</strong>
     </div>
     <hr>
-    <div class="row justify-content-end mr-3 mb-5">
-        <a href="#" type="button" class="btn btn-success">Pagar</a>
+    {{#if user}}
+    <div class="card-body">
+        <form method="POST" action="/venta/pagar">
+            <div class="form-group">
+                <label class="text-muted">Nombre de facturacion</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre" class="form-control"
+                    value="{{user.nombre}}">
+            </div>
+            <div class="form-group">
+                <label class="text-muted">Apellido de facturacion</label>
+                <input type="text" name="apellido" id="apellido" placeholder="Apellido" class="form-control"
+                    value="{{user.apellido}}">
+            </div>
+            <div class="form-group">
+                <label class="text-muted">Email de facturacion</label>
+                <input type="email" name="email" id="email" placeholder="Email" class="form-control"
+                    value="{{user.email}}">
+            </div>
+            <div class="form-group">
+                <label class="text-muted">Domicilio de facturacion</label>
+                <input type="text" name="direccion" id="direccion" placeholder="Direccion de facturacion" class="form-control">
+            </div>
+            <label class="text-muted">Metod de Pago</label>
+            <div class="form-group">
+                <input class="form-check-input check-pago" type="checkbox" name="mercadoPago" id="check1">
+                <p class="form-check-label" for="defaultCheck1">
+                    Mercado Pago
+                </p>
+                <input class="form-check-input check-pago" type="checkbox" name="efectivo" id="check2">
+                <p class="form-check-label" for="defaultCheck1">
+                    Efectivo
+                </p>
+            </div>
+            <div class="row justify-content-end mr-3 mb-5">
+                <button type="submit" class="btn btn-success mr-3 btn-sm">Pagar</button>
+            </div>
+        </form>
     </div>
+    {{else}}
+    <div class="row justify-content-end mr-3 mb-5">
+        <a href="/signin" type="button" class="btn btn-success">Ingrese para pagar</a>
+    </div>
+    {{/if}}
 </div>
 {{ else }}
 <div class="row justify-content-md-center">

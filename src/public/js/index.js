@@ -51,7 +51,6 @@ if(btnProd) btnProd.addEventListener('click', e => {
     const inputCantidad = document.querySelector('.cantidad-productos');
     const maxCant = parseInt(inputCantidad.getAttribute('max'));
     const cantidad = parseInt(inputCantidad.value);
-    console.log(cantidad)
     if(cantidad > 0 && cantidad < maxCant) {
         location.href = `/carrito/agregar/${id}/${cantidad}`;
     } else {
@@ -60,10 +59,25 @@ if(btnProd) btnProd.addEventListener('click', e => {
 });
 
 // CANTIDAD PRODUCTO EN VISTA CARRITO
-const btnAddCant = document.querySelector('#add-producto');
-const cantidadMaxima = btnAddCant.getAttribute('data-cantidad');
-const cantidad = btnAddCant.getAttribute('cantidad');
-if (cantidad >= cantidadMaxima) btnAddCant.remove();
+document.querySelectorAll('.add-producto').forEach(btnAddCant => {
+    const cantidadMaxima = btnAddCant.getAttribute('data-cantidad');
+    const cantidad = btnAddCant.getAttribute('cantidad');
+    if (parseInt(cantidad) >= parseInt(cantidadMaxima)) btnAddCant.remove();
+});
+
+// CHECKBOX METODO DE PAGO EN CARRITO
+const check1 = document.getElementById('check1');
+const check2 = document.getElementById('check2');
+check1.addEventListener('change', e => {
+    if (e.target.checked) {
+        check2.checked = null;
+    }
+});
+check2.addEventListener('change', e => {
+    if (e.target.checked) {
+        check1.checked = null;
+    }
+});
 
 // COMENTARIO
 const comentar = (id) => {
