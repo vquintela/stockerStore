@@ -68,12 +68,12 @@ document.querySelectorAll('.add-producto').forEach(btnAddCant => {
 // CHECKBOX METODO DE PAGO EN CARRITO
 const check1 = document.getElementById('check1');
 const check2 = document.getElementById('check2');
-check1.addEventListener('change', e => {
+if (check1) check1.addEventListener('change', e => {
     if (e.target.checked) {
         check2.checked = null;
     }
 });
-check2.addEventListener('change', e => {
+if (check2) check2.addEventListener('change', e => {
     if (e.target.checked) {
         check1.checked = null;
     }
