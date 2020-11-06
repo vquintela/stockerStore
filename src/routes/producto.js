@@ -138,7 +138,8 @@ router.get('/:id', async (req, res) => {
 
 router.post('/:id', async (req, res) => {
     const values = req.body;
-    values.destacado = (values.destacado == 'on') ? true : false;
+    values.destacado = values.destacado == 'on';
+    values.comentarios = values.comentarios == 'on';
     let imagePath
     if(req.file) {
         imagePath = req.file.path;

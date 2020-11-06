@@ -34,7 +34,8 @@
                                     <div class="form-group">
                                         <select id="categoria" name="id_prod_cat" class="form-control">
                                             {{#if producto.id_prod_cat}}
-                                            <option value="{{producto.id_prod_cat._id}}">{{producto.id_prod_cat.nombre}}</option>
+                                            <option value="{{producto.id_prod_cat._id}}">{{producto.id_prod_cat.nombre}}
+                                            </option>
                                             {{/if}}
                                             <option>Categoria</option>
                                             {{#each categorias as |item|}}
@@ -71,14 +72,22 @@
                                         <input type="file" id="imagen" name="imagen" class="form-control-file">
                                     </div>
                                     <div class="form-group">
-                                        <textarea type="text" name="descripcion" id="descripcion" placeholder="Descripcion"
+                                        <textarea type="text" name="descripcion" id="descripcion"
+                                            placeholder="Descripcion"
                                             class="form-control">{{producto.descripcion}}</textarea>
                                         <span class="text-danger">{{e.descripcion}}</span>
                                     </div>
                                     <div class="form-check">
-                                        <input type="checkbox" name="destacado" class="form-check-input"
-                                            {{#if producto.destacado}}checked{{/if}}>
-                                        <label class="form-check-label" for="exampleCheck1">¿Producto destacado?</label>
+                                        <div>
+                                            <input type="checkbox" name="destacado" class="form-check-input"
+                                                {{#if producto.destacado}}checked{{/if}}>
+                                            <span>destacado</span>
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="comentarios" class="form-check-input"
+                                                {{#if producto.comentarios}}checked{{/if}}>
+                                            <span>mostrar comentarios</span>
+                                        </div>
                                     </div>
                                     <div class="form-group mt-4">
                                         <button type="submit" class="btn btn-primary">{{boton}}</button>

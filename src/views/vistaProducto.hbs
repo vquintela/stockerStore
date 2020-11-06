@@ -4,14 +4,15 @@
     </div>
     {{>navCategorias}}
     <div class="row justify-content-between align-items-center">
-        <div comentarios class="col-md-5">
+        <div class="col-md-5">
             <img class="img-fluid" src="/img/{{producto.imagen}}" alt="Card image cap">
             <hr>
+            <div comentarios {{#unless producto.comentarios}}style="visibility:hidden"{{/unless}}>
             <h3 class="font-weight-bold text-muted font-italic">Comentarios:</h3>
             {{#each comentarios}}
             <p class="text-muted" comentario>{{contenido}}</p>
             {{/each}}
-
+            </div>
         </div>
         <div class="col-md-5 pt-3">
             <h1 class="font-weight-bold">{{producto.nombre}}</h1>

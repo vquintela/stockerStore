@@ -51,6 +51,10 @@ const productoSchema = new Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+    comentarios: {
+        type: Boolean,
+        default: false
     }
 });
 
