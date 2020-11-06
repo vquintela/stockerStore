@@ -9,18 +9,18 @@ router.get('/', async (req, res) => {
     const [count, productos, categorias] = await Promise.all([
         Productos.countDocuments().where('estado').equals(true).where('destacado').equals(true),
         Productos.find()
-        .where('estado').equals(true)
-        .where('destacado').equals(true)
-        .populate({ path: 'marca_id', select: 'marca' })
-        .lean(),
+            .where('estado').equals(true)
+            .where('destacado').equals(true)
+            .populate({ path: 'marca_id', select: 'marca' })
+            .lean(),
         Categorias.find()
-        .where('estado').equals(true)
-        .populate({ path: 'categoriaPadre' })
-        .lean()
+            .where('estado').equals(true)
+            .populate({ path: 'categoriaPadre' })
+            .lean()
     ]);
     let list = [];
     const number = [];
-    if(count > 6) {
+    if (count > 6) {
         while (list.length < 6) {
             const rand = Math.floor(Math.random() * count);
             if (!number.includes(rand)) {
@@ -38,15 +38,15 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { nombre, telefono, email, sector, comentario} = req.body;
-    if(nombre === '' || telefono === ''  || email === '' || sector === '' || comentario === '') {
+    const { nombre, telefono, email, sector, comentario } = req.body;
+    if (nombre === '' || telefono === '' || email === '' || sector === '' || comentario === '') {
         res.render('', {
-            comentario:  { nombre, telefono, email, sector, comentario},
+            comentario: { nombre, telefono, email, sector, comentario },
             danger: 'Debe completar todos los campos'
         });
         return
     }
-    mailer.contacto({nombre, telefono, email, sector, comentario});
+    mailer.contacto({ nombre, telefono, email, sector, comentario });
     req.flash('success', 'Contacto enviado de forma correcta')
     res.redirect('/');
 });
@@ -68,7 +68,7 @@ router.get('/todos/:pagina', async (req, res) => {
             .lean()
     ]);
     res.render('productos', {
-        productos:productos,
+        productos: productos,
         categorias: categorias,
         paginacion: Math.ceil(count / porPagina),
         actual: pagina
@@ -77,23 +77,39 @@ router.get('/todos/:pagina', async (req, res) => {
 
 router.get('/ver/:id', async (req, res) => {
     const [producto, categorias, comentarios] = await Promise.all([
-        Productos.findById({_id: req.params.id})
+        Productos.findById({ _id: req.params.id })
             .populate({ path: 'marca_id', select: 'marca' })
             .lean(),
         Categorias.find()
             .where('estado').equals(true)
             .populate({ path: 'categoriaPadre' })
             .lean(),
-        Comentarios.find({producto: req.params.id})
-            .sort({fecha: -1})
+        Comentarios.find({ producto: req.params.id })
+            .sort({ fecha: -1 })
             .limit(5)
             .lean()
     ]);
+
+    const promedio = obtenerPromedio(comentarios);
+
     res.render('vistaProducto', {
-       producto: producto,
-       categorias: categorias,
-       comentarios: comentarios
+        producto: producto,
+        categorias: categorias,
+        comentarios: comentarios,
+        promedio:{
+            valor: promedio,
+            uno: promedio > 0 && promedio < 2,
+            dos: promedio >= 2 && promedio < 3,
+            tres: promedio >= 3 && promedio < 4,
+            cuatro: promedio >= 4 && promedio < 5,
+            cinco: promedio == 5,
+        }
     });
 });
+
+const obtenerPromedio = (comentarios) => {
+    const ranqueos = comentarios.map(c => c.ranqueo);
+    return ranqueos.reduce((a, b) => a + b) / ranqueos.length;
+};
 
 module.exports = router;
