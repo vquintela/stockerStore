@@ -1,15 +1,15 @@
 <div class="row justify-content-between w-100 bg-secondary m-0 p-2">
     {{#each categorias}}
     <div class="btn-group">
-        <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown" aria-haspopup="true"
+        <a href="/todos/{{_id}}/1" aria-haspopup="true"
             aria-expanded="false">
             {{nombre}}
         </a>
-        <div class="dropdown-menu">
+        {{!-- <div class="dropdown-menu">
             <a class="dropdown-item" href="#">Action</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Another action</a>
-        </div>
+        </div> --}}
     </div>
     {{/each}}
 </div>

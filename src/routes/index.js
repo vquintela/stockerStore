@@ -51,14 +51,20 @@ router.post('/', async (req, res) => {
     res.redirect('/');
 });
 
-router.get('/todos/:pagina', async (req, res) => {
+router.get('/todos/:categoria/:pagina', async (req, res) => {
     const porPagina = 2;
     const pagina = req.params.pagina || 1;
+    const categoria = req.params.categoria;
+    let consulta = categoria != 'todos' ? { id_prod_cat: categoria } : {};
+    if (req.query.destacado) consulta = { ...consulta, destacado: req.query.destacado };
+    let orden = {};
+    if (req.query.orden) orden = { nombre: req.query.orden };
+    console.log(consulta, orden)
     const [count, productos, categorias] = await Promise.all([
-        Productos.countDocuments().where('estado').equals(true),
-        Productos.find()
-            .where('estado').equals(true)
+        Productos.countDocuments({ ...consulta, estado: true }),
+        Productos.find({ ...consulta, estado: true })
             .populate({ path: 'marca_id', select: 'marca' })
+            .sort(orden)
             .skip((porPagina * pagina) - porPagina)
             .limit(porPagina)
             .lean(),
@@ -71,7 +77,10 @@ router.get('/todos/:pagina', async (req, res) => {
         productos: productos,
         categorias: categorias,
         paginacion: Math.ceil(count / porPagina),
-        actual: pagina
+        actual: pagina,
+        categoria: categoria,
+        destacado: req.query.destacado || '',
+        orden: req.query.orden || ''
     });
 });
 
