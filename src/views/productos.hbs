@@ -1,0 +1,64 @@
+{{!-- VISTA PORTADA DE INICIO --}}
+<div class="masthead">
+    <h1 class="display-3 text-white font-weight-bold font-italic">EY-COMMERCE</h1>
+    <p class="lead text-white font-weight-bold font-italic">Tienda online de productos y novedades...</p>
+</div>
+{{!-- LISTADO DE TODOS LOS PRODUCTOS --}}
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+        <h1 class="font-weight-bold font-italic">LISTADO DE PRODUCTOS</h1>
+        <a href="/todos/todos/1" class="btn btn-sm btn-success">Todos</a>
+    </div>
+    {{>navCategorias}}
+    <div class="d-flex justify-content-end align-items-center mt-2">
+        {{!-- PAGINACION PRODUCTOS --}}
+        <nav class="ml-2" aria-label="Page navigation example">
+            <ul class="pagination">
+                {{#for paginacion actual categoria destacado orden}}
+                {{/for}}
+            </ul>
+        </nav>
+        {{!-- BUSQUEDA DESTACADOS --}}
+        <div class="col-md-6 m-0 d-flex">
+            <h3 class="ml-auto">Tipo de Producto:</h3>
+            <div class="form-group ml-2">
+                <select name="marca_id" id="filtro-destacado" class="form-control">
+                    {{!-- {{#if producto.marca_id}}
+                    <option value="{{producto.marca_id._id}}">{{producto.marca_id.marca}}
+                    </option>
+                    {{/if}} --}}
+                    <option value="">Todos</option>
+                    <option value="true"{{#if destacado}}selected{{/if}}>Destacados</option>
+                </select>
+            </div>
+        </div>
+        {{!-- ORDEN A-Z Y Z-A --}}
+        <div class="col-md-3 m-0 d-flex">
+            <h3 class="ml-auto">Orden:</h3>
+            <div class="form-group ml-2">
+                <select name="marca_id" id="filtro-orden" class="form-control">
+                    {{!-- {{#if producto.marca_id}}
+                    <option value="{{producto.marca_id._id}}">{{producto.marca_id.marca}}
+                    </option>
+                    {{/if}} --}}
+                    <option value="">Ordenar por..</option>
+                    <option value="1">A a la Z</option>
+                    <option value="-1">Z a la A</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {{#each productos}}
+            {{>cardProducto}}
+        {{/each}}
+    </div>
+    {{!-- PAGINACION PRODUCTOS --}}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {{#for paginacion actual categoria destacado orden}}
+            {{/for}}
+        </ul>
+    </nav>
+</div>
+<script src="/js/vistaProductos.js"></script>

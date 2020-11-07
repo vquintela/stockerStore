@@ -1,12 +1,11 @@
 <div class="row w-100">
     {{>sidebar}}
     <div class="col-md-10">
-        <div class="row justify-content-around">
+        <div class="row justify-content-around mb-2">
             <div class="col-md-8 mx-auto pt-3">
                 <div class="card-header text-center">
                     <h3>{{titulo}}</h3>
                 </div>
-
                 <div class="card text-center">
                     <div class="card-body">
                         <form method="POST" action="{{accion}}" enctype="multipart/form-data">
@@ -16,11 +15,6 @@
                                         <input type="text" name="nombre" id="nombre" placeholder="Nombre"
                                             class="form-control" value="{{producto.nombre}}">
                                         <span class="text-danger">{{e.nombre}}</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" name="descripcion" id="descripcion" placeholder="Descripcion"
-                                            class="form-control" value="{{producto.descripcion}}">
-                                        <span class="text-danger">{{e.descripcion}}</span>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" name="modelo" id="modelo" placeholder="Modelo"
@@ -33,11 +27,35 @@
                                         <span class="text-danger">{{e.precio}}</span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="file" id="imagen" name="imagen" class="form-control-file">
+                                        <input type="number" name="cantidad" id="cantidad" placeholder="Cantidad"
+                                            class="form-control" value="{{producto.cantidad}}" min="1">
+                                        <span class="text-danger">{{e.cantidad}}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="categoria" name="id_prod_cat" class="form-control">
+                                            {{#if producto.id_prod_cat}}
+                                            <option value="{{producto.id_prod_cat._id}}">{{producto.id_prod_cat.nombre}}
+                                            </option>
+                                            {{/if}}
+                                            <option>Categoria</option>
+                                            {{#each categorias as |item|}}
+                                            <option value="{{item._id}}">{{item.nombre}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="subCategoria" class="form-control">
+                                            {{!-- {{#if usuario.rol}}
+                                            <option>{{usuario.rol}}</option>
+                                            {{/if}} --}}
+                                            <option>SubCategoria</option>
+                                            {{!-- {{#each marcas as |item|}}
+                                            <option value="{{item._id}}">{{item.marca}}</option>
+                                            {{/each}} --}}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-
                                     <div class="form-group">
                                         <select name="marca_id" id="marca" class="form-control">
                                             {{#if producto.marca_id}}
@@ -49,24 +67,27 @@
                                             <option value="{{item._id}}">{{item.marca}}</option>
                                             {{/each}}
                                         </select>
-                                        <span class="text-danger">{{e.marca}}</span>
                                     </div>
                                     <div class="form-group">
-                                        <select id="categoria" class="form-control">
-                                            {{!-- {{#if usuario.rol}}
-                                    <option>{{usuario.rol}}</option>
-                                    {{/if}} --}}
-                                            <option>Categoria</option>
-                                            {{!-- {{#each marcas as |item|}}
-                                    <option value="{{item._id}}">{{item.marca}}</option>
-                                    {{/each}} --}}
-                                        </select>
-                                        <span class="text-danger">{{e.categoria}}</span>
+                                        <input type="file" id="imagen" name="imagen" class="form-control-file">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea type="text" name="descripcion" id="descripcion"
+                                            placeholder="Descripcion"
+                                            class="form-control">{{producto.descripcion}}</textarea>
+                                        <span class="text-danger">{{e.descripcion}}</span>
                                     </div>
                                     <div class="form-check">
-                                        <input type="checkbox" name="destacado" class="form-check-input"
-                                            {{#if producto.destacado}}checked{{/if}}>
-                                        <label class="form-check-label" for="exampleCheck1">¿Producto destacado?</label>
+                                        <div>
+                                            <input type="checkbox" name="destacado" class="form-check-input"
+                                                {{#if producto.destacado}}checked{{/if}}>
+                                            <span>destacado</span>
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="comentarios" class="form-check-input"
+                                                {{#if producto.comentarios}}checked{{/if}}>
+                                            <span>mostrar comentarios</span>
+                                        </div>
                                     </div>
                                     <div class="form-group mt-4">
                                         <button type="submit" class="btn btn-primary">{{boton}}</button>
