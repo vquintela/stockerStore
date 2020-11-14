@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Carrito = require('../model/carrito');
 const Venta = require('../model/venta');
+const Producto = require('../model/producto');
 const { generarPago } = require('../lib/mercadopago');
 
 router.post('/pagar', async (req, res) => {
@@ -12,24 +13,24 @@ router.post('/pagar', async (req, res) => {
     const carrito = new Carrito(req.session.carrito);
     const factura = req.body;
     let urlPago;
+    const detalleVenta = [];
+    const elementosCarrito = carrito.generateArray();
+    elementosCarrito.forEach(elemento => {
+        const item = {
+            id_producto: elemento.item._id,
+            cantidad: elemento.qty,
+            precio: elemento.item.precio
+        }
+        detalleVenta.push(item)
+    });
+    const venta = new Venta({
+        id_usuario: req.user._id,
+        total_venta: carrito.totalPrice,
+        forma_pago: factura.efectivo == 'on' ? 'transferencia' : 'mercadopago',
+        detalle: detalleVenta
+    });
+    req.session.venta = venta;
     if (factura.mercadoPago) {
-        const detalleVenta = [];
-        const elementosCarrito = carrito.generateArray();
-        elementosCarrito.forEach(elemento => {
-            const item = {
-                id_producto: elemento.item._id,
-                cantidad: elemento.qty,
-                precio: elemento.item.precio
-            }
-            detalleVenta.push(item)
-        });
-        const venta = new Venta({
-            id_usuario: req.user._id,
-            total_venta: carrito.totalPrice,
-            forma_pago: 'mercadopago',
-            detalle: detalleVenta
-        });
-        req.session.venta = venta;
         urlPago = await generarPago(elementosCarrito, venta._id, req.user);
     }
     if (factura.efectivo) {
@@ -92,28 +93,44 @@ router.get('/efectivo', async(req, res) => {
     let venta;
     try {
         venta = new Venta({...req.session.venta, status: 'efectivo' });
-        const res = await venta.save();
+        await venta.save();
+        venta.detalle.forEach(async det => {
+            const prod = await Producto.findById({_id: det.id_producto});
+            prod.cantidad = prod.cantidad - det.cantidad;
+            await Producto.updateOne({_id: prod._id}, {cantidad: prod.cantidad});
+        });
         req.session.destroy();
     } catch (error) {
         console.log(error)
+        return
     }
     res.render('ventas/efectivo', {
         venta: venta.total_venta
     });
 });
 
-router.get('/', async (req, res) => {
+router.get('/:pagina', async (req, res) => {
+    const porPagina = 6;
+    const pagina = req.params.pagina || 1;
     let estado = {};
     if (req.query.estado) estado = { status: req.query.estado };
-    const ventas = await Venta.find(estado)
-        .select('-detalle')
-        .populate({ path: 'id_usuario', select: 'nombre apellido' })
-        .lean();
+    const [count, ventas] = await Promise.all([
+        Venta.countDocuments(estado),
+        Venta.find(estado)
+            .select('-detalle')
+            .populate({ path: 'id_usuario', select: 'nombre apellido' })
+            .sort({fecha: -1})
+            .skip((porPagina * pagina) - porPagina)
+            .limit(porPagina)
+            .lean()
+    ]);
     const estados = Venta.schema.path('status').enumValues;
     res.render('ventas/listadoVentas', {
         ventas: ventas,
         estados: estados,
-        actual: req.query.estado
+        actualEstado: req.query.estado || '',
+        paginacion: Math.ceil(count / porPagina),
+        actual: pagina,
     });
 });
 

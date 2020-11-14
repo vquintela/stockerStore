@@ -59,7 +59,6 @@ router.get('/todos/:categoria/:pagina', async (req, res) => {
     if (req.query.destacado) consulta = { ...consulta, destacado: req.query.destacado };
     let orden = {};
     if (req.query.orden) orden = { nombre: req.query.orden };
-    console.log(consulta, orden)
     const [count, productos, categorias] = await Promise.all([
         Productos.countDocuments({ ...consulta, estado: true }),
         Productos.find({ ...consulta, estado: true })

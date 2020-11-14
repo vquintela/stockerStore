@@ -9,7 +9,7 @@
                 <select id="estado-venta" class="form-control mr-4">
                     <option value="">todos</option>
                     {{#each estados }}
-                    <option value="{{this}}" {{#estado @root.actual this }}{{/estado}}>
+                    <option value="{{this}}" {{#estado @root.actualEstado this }}{{/estado}}>
                         {{#status this}}{{/status}}
                     </option>
                     {{/each}}
@@ -53,6 +53,13 @@
                         {{/each}}
                     </tbody>
                 </table>
+                {{!-- PAGINACION PRODUCTOS --}}
+                <nav class="ml-2" aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {{#pagProd paginacion actual actualEstado }}
+                        {{/pagProd}}
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

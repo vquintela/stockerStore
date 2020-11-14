@@ -12,7 +12,6 @@ router.get("/agregar/:id/:cantidad", async (req, res) => {
     if (producto.cantidad >= cantidad && cantidad > 0) {
       carrito.add(producto, productId, cantidad);
       req.session.carrito = carrito;
-      console.log(req.session.carrito);
       req.flash('success', 'Producto agregado correctamente');
       res.redirect("/");
     } else {

@@ -51,5 +51,5 @@ const mostrarModal = () => {
 
 // FILTRO DE BUSQUEDA POR ESTADO DE LA VENTA
 document.getElementById('estado-venta').addEventListener('change', e => {
-    location.href = `/venta?estado=${e.target.value}`;
+    location.href = `/venta/1?estado=${e.target.value}`;
 });
