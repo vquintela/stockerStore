@@ -1,3 +1,5 @@
+const moment = require('moment');
+moment.locale('es')
 const helpers = {}
 
 helpers.for = (numero, actual, categoria, destacado, orden) => {
@@ -24,6 +26,27 @@ helpers.for = (numero, actual, categoria, destacado, orden) => {
     }
     fragment = fragment + element;
     return fragment;
+}
+
+helpers.date = (date) => {
+    return moment(date).format('l');
+}
+
+helpers.status = (status) => {
+    switch (status) {
+        case 'approved':
+            return '<th class="text-primary">Aprobado</th>';
+        case 'in_process':
+            return '<th class="text-warning">En processo</th>';
+        case 'rejected':
+            return '<th class="text-danger">Rechazado</th>';
+        case 'efectivo':
+            return '<th class="text-success">Efectivo</th>';
+    }
+}
+
+helpers.estado = (item, actual) => {
+    if(item == actual) return 'selected';
 }
 
 module.exports = helpers;
