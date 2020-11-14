@@ -49,7 +49,12 @@ router.get('/success', async (req, res) => {
     let venta;
     try {
         venta = new Venta({...req.session.venta, status, payment_id, merchant_order_id });
-        const res = await venta.save();
+        await venta.save();
+        venta.detalle.forEach(async det => {
+            const prod = await Producto.findById({_id: det.id_producto});
+            prod.cantidad = prod.cantidad - det.cantidad;
+            await Producto.updateOne({_id: prod._id}, {cantidad: prod.cantidad});
+        });
         req.session.destroy();
     } catch (error) {
         console.log(error)
