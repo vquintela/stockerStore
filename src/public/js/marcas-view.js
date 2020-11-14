@@ -27,9 +27,5 @@ const estado = async (e) => {
 
 const filtrar = () => {
     const estado = document.querySelector('.estado-buscar').value;
-    if(estado === 'todos') {
-        location.href = `/marcas`;
-    } else {
-        location.href = `/marcas/buscar/${estado}`;
-    }
+    location.href = `/marcas?estado=${estado}`;
 }
