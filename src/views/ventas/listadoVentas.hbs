@@ -9,7 +9,7 @@
                 <select id="estado-venta" class="form-control mr-4">
                     <option value="">todos</option>
                     {{#each estados }}
-                    <option value="{{this}}" {{#estado @root.actualEstado this }}{{/estado}}>
+                    <option value="{{this}}" {{#if (estado @root.actualEstado this) }}selected{{/if}}>
                         {{#status this}}{{/status}}
                     </option>
                     {{/each}}

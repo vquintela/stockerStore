@@ -8,13 +8,13 @@
             <div class="d-flex ml-auto align-items-center col-md-6">
                 <select id="rol" class="form-control mr-4 estado-buscar">
                     <option value="">Estado Usuario</option>
-                    <option value='true' {{#estado actualEstado 'true' }}{{/estado}}>activos</option>
-                    <option value="false" {{#estado actualEstado 'false' }}{{/estado}}>bloqueados</option>
+                    <option value='true' {{#if (estado actualEstado 'true') }}selected{{/if}}>activos</option>
+                    <option value="false" {{#if (estado actualEstado 'false') }}selected{{/if}}>bloqueados</option>
                 </select>
                 <select id="rol" class="form-control mr-4 rol-buscar">
                     <option value="">todos</option>
                     {{#each roles}}
-                    <option {{#estado @root.actualRol this }}{{/estado}}>{{this}}</option>
+                    <option {{#if (estado @root.actualRol this) }}selected{{/if}}>{{this}}</option>
                     {{/each}}
                 </select>
                 <a class="btn btn-block btn-primary mr-2 btn-sm" href="/users/crear"><i class="fas fa-tasks text-white"></i>

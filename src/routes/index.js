@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/todos/:categoria/:pagina', async (req, res) => {
-    const porPagina = 2;
+    const porPagina = 6;
     const pagina = req.params.pagina || 1;
     const categoria = req.params.categoria;
     let consulta = categoria != 'todos' ? { id_prod_cat: categoria } : {};

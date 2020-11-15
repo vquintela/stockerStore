@@ -72,7 +72,7 @@ helpers.status = (status) => {
 }
 
 helpers.estado = (item, actual) => {
-    if(item == actual) return 'selected';
+    return (item == actual);
 }
 
 module.exports = helpers;

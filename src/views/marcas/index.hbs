@@ -8,8 +8,8 @@
             <div class="d-flex ml-auto align-items-center col-md-4">
                 <select id="rol" class="form-control mr-4 estado-buscar">
                     <option value="">Estado Marcas</option>
-                    <option value='true' {{#estado actual 'true' }}{{/estado}}>activos</option>
-                    <option value="false" {{#estado actual 'false' }}{{/estado}}>inactivos</option>
+                    <option value='true' {{#if (estado actual 'true') }}selected{{/if}}>activos</option>
+                    <option value="false" {{#if (estado actual 'false') }}selected{{/if}}>inactivos</option>
                 </select>
                 <i class="fas fa-search"></i>
             </div>
