@@ -1,4 +1,3 @@
-{{#if (estado user.rol 'administrador')}}
 <div class="col-md-2 border-right sidebar bg-white m-0">
     <h3 class="text-center pt-3 text-primary">{{user.nombre}}</h3>
     <div class="ml-2 pt-2">
@@ -21,6 +20,7 @@
         </div>
     </div>
     <hr>
+{{#if (estado user.rol 'administrador')}}
     <div class="mt-2 pl-2">
         <h4 class="text-muted productos-menu"><i class="fas fa-shopping-cart pr-2"></i>Productos</h4>
         <div class="contenedor-menu">
@@ -75,10 +75,12 @@
         </div>
     </div>
     <hr>
+{{/if}}
     <div class="mt-2 pl-2">
         <h4 class="text-muted productos-menu"><i class="fas fa-users-cog pr-2"></i>Usuario</h4>
         <div class="contenedor-menu">
             <div class="menu-desp">
+{{#if (estado user.rol 'administrador')}}
                 <hr>
                 <div>
                     <a class="text-decoration-none text-dark" href="/users">
@@ -91,53 +93,15 @@
                         <h6><i class="fas fa-user-plus pr-2"></i>Crear Usuario</h6>
                     </a>
                 </div>
-                <hr>
-                <div>
-                    <a class="text-decoration-none text-dark" href="/users/newpws">
-                        <h6><i class="fas fa-user-edit pr-2"></i>Cambiar Password</h6>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-</div>
-{{else}}
-<div class="col-md-2 border-right sidebar bg-white m-0">
-    <h3 class="text-center pt-3 text-primary">{{user.nombre}}</h3>
-    <div class="ml-2 pt-2">
-        <a class="text-decoration-none text-dark" href="/profile">
-            <h6><i class="fas fa-id-badge pr-2"></i>Perfil</h6>
-        </a>
-    </div>
-    <hr>
-    <div class="mt-2 pl-2">
-        <h4 class="text-muted productos-menu"><i class="fas fa-wallet pr-2"></i>Pagos</h4>
-        <div class="contenedor-menu">
-            <div class="menu-desp">
-                <hr>
-                <div>
-                    <a class="text-decoration-none text-dark" href="/venta/1">
-                        <h6><i class="fas fa-list-ul pr-2"></i>Ver Pagos</h6>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <div class="mt-2 pl-2">
-        <h4 class="text-muted productos-menu"><i class="fas fa-users-cog pr-2"></i>Usuario</h4>
-        <div class="contenedor-menu">
-            <div class="menu-desp">
-                <hr>
-                <div>
-                    <a class="text-decoration-none text-dark" href="/users/newpws">
-                        <h6><i class="fas fa-user-edit pr-2"></i>Cambiar Password</h6>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-</div>
 {{/if}}
+                <hr>
+                <div>
+                    <a class="text-decoration-none text-dark" href="/users/newpws">
+                        <h6><i class="fas fa-user-edit pr-2"></i>Cambiar Password</h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>

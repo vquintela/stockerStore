@@ -32,7 +32,7 @@ const userSchema = new Schema({
     rol: {
         type: String,
         enum: {
-            values: ['cliente', 'operador' ,'administrador'],
+            values: ['cliente' ,'administrador'],
             message: '¡Debe elegir un rol!'
         },
         default: 'cliente'

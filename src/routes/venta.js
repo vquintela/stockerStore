@@ -119,6 +119,7 @@ router.get('/:pagina', async (req, res) => {
     const pagina = req.params.pagina || 1;
     let estado = {};
     if (req.query.estado) estado = { status: req.query.estado };
+    if (req.user.rol === 'cliente') estado = { ...estado, id_usuario: req.user._id };
     const [count, ventas] = await Promise.all([
         Venta.countDocuments(estado),
         Venta.find(estado)
