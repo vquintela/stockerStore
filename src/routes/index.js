@@ -106,6 +106,7 @@ router.get('/ver/:id', async (req, res) => {
         comentarios: comentarios,
         promedio:{
             valor: promedio,
+            cero: promedio === 0,
             uno: promedio > 0 && promedio < 2,
             dos: promedio >= 2 && promedio < 3,
             tres: promedio >= 3 && promedio < 4,
@@ -117,6 +118,10 @@ router.get('/ver/:id', async (req, res) => {
 
 const obtenerPromedio = (comentarios) => {
     const ranqueos = comentarios.map(c => c.ranqueo);
+    
+    if(ranqueos.length === 0)
+        return 0;
+
     return ranqueos.reduce((a, b) => a + b) / ranqueos.length;
 };
 
