@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     const value = req.body;
     const categoria = new categoriaSchema();
     categoria.nombre = value.nombre;
-    categoria.categoriaPadre = value.categoriaPadre != "" ? value.categoriaPadre : "";
+    categoria.categoriaPadre = value.categoriaPadre != "" ? value.categoriaPadre : "0";
 
     try {
         await categoria.save();
@@ -46,7 +46,8 @@ router.get('/editar/:id', async (req, res) => {
         boton: 'Editar',
         action: `/categorias/editar/${categoria._id}`,
         categorias: categorias,
-        value: categoria.nombre
+        value: categoria.nombre,
+        value: categoria.categoriaPadre,
     });
 });
 
