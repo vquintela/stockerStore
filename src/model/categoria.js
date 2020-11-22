@@ -7,9 +7,9 @@ const categoriaSchema = new Schema({
         maxlength: [50,"La cantidad máxima de caracteres es 50."]
     },
     categoriaPadre: {
-        type: Schema.Types.ObjectId,
-        required: false,
-        ref: 'categoria'
+        type: String,
+        required: true,
+        default: "0"
     },
     estado: {
         type: Boolean,

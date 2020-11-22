@@ -5,7 +5,7 @@ const categoriaSchema = require('../model/categoria');
 const productoSchema = require('../model/producto');
 
 router.get('/', async (req, res) => {
-    const categorias = await categoriaSchema.find().lean();
+    const categorias = await categoriaSchema.find({categoriaPadre: "0", estado: true}).lean();
     res.render('categorias', {
         titulo: 'Agregar categoría',
         boton: 'Guardar',
@@ -18,10 +18,11 @@ router.post('/', async (req, res) => {
     const value = req.body;
     const categoria = new categoriaSchema();
     categoria.nombre = value.nombre;
-    categoria.categoriaPadre = value.categoriaPadre != "" ? value.categoriaPadre : "";
+    categoria.categoriaPadre = value.categoriaPadre != "" ? value.categoriaPadre : "0";
 
     try {
-        await categoria.save();
+        const cat = await categoria.save();
+        console.log(cat)
         req.flash('success', 'Categoría ingresada correctamente.');
         res.redirect('/categorias');
     } catch (error) {

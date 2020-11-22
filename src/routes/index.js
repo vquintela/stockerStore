@@ -13,10 +13,7 @@ router.get('/', async (req, res) => {
             .where('destacado').equals(true)
             .populate({ path: 'marca_id', select: 'marca' })
             .lean(),
-        Categorias.find()
-            .where('estado').equals(true)
-            .populate({ path: 'categoriaPadre' })
-            .lean()
+        Categorias.find({estado: true, categoriaPadre: "0"}).lean()
     ]);
     let list = [];
     const number = [];
@@ -67,10 +64,7 @@ router.get('/todos/:categoria/:pagina', async (req, res) => {
             .skip((porPagina * pagina) - porPagina)
             .limit(porPagina)
             .lean(),
-        Categorias.find()
-            .where('estado').equals(true)
-            .populate({ path: 'categoriaPadre' })
-            .lean()
+        Categorias.find({estado: true, categoriaPadre: "0"}).lean()
     ]);
     res.render('productos', {
         productos: productos,
@@ -88,10 +82,7 @@ router.get('/ver/:id', async (req, res) => {
         Productos.findById({ _id: req.params.id })
             .populate({ path: 'marca_id', select: 'marca' })
             .lean(),
-        Categorias.find()
-            .where('estado').equals(true)
-            .populate({ path: 'categoriaPadre' })
-            .lean(),
+        Categorias.find({estado: true, categoriaPadre: "0"}).lean(),
         Comentarios.find({ producto: req.params.id })
             .sort({ fecha: -1 })
             .limit(5)

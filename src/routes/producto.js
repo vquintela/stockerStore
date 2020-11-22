@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 router.get('/crear', async (req, res) => {
     const marcas = await Marca.find().where('estado').equals(true).lean();
-    const categorias = await Categoria.find().where('estado').equals(true).lean();
+    const categorias = await Categoria.find({estado: true, categoriaPadre: "0"}).lean();
     res.render('productos/crear', {
         titulo: 'Crear Producto',
         action: '/productos/crear',
