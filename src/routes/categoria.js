@@ -47,7 +47,8 @@ router.get('/editar/:id', async (req, res) => {
         boton: 'Editar',
         action: `/categorias/editar/${categoria._id}`,
         categorias: categorias,
-        value: categoria.nombre
+        value: categoria.nombre,
+        value: categoria.categoriaPadre,
     });
 });
 

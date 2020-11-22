@@ -8,8 +8,9 @@ const categoriaSchema = new Schema({
     },
     categoriaPadre: {
         type: String,
-        required: true,
-        default: "0"
+        default: "0",
+        required: false,
+        ref: 'categoria'
     },
     estado: {
         type: Boolean,
