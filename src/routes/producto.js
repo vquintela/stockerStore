@@ -105,7 +105,7 @@ router.post('/crear', logAdmin, async (req, res) => {
     try {
         await producto.save();
         req.flash('success', 'Producto ingresado de forma correcta');
-        res.redirect('/productos');
+        res.redirect('/productos/todos/1');
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
         const marcas = await Marca.find().where('estado').equals(true).lean();
@@ -195,7 +195,7 @@ router.post('/:id', logAdmin, async (req, res) => {
     try {
         await Producto.findByIdAndUpdate({ _id: req.params.id }, { ...values }, { runValidators: true });
         req.flash('success', 'Producto editado de forma correcta');
-        res.redirect('/productos');
+        res.redirect('/productos/todos/1');
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
         const marcas = await Marca.find().where('estado').equals(true).lean();

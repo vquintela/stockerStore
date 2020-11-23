@@ -8,7 +8,7 @@ const eliminar = async (e) => {
     const res = await modal('Eliminar Producto', '¿Desea Eliminar este Producto?')
     if (res) {
         const resp = await fetch(`/productos/eliminar/${id}`, { method: 'DELETE'});
-        if (resp.ok) location.href = '/productos'
+        if (resp.ok) location.href = '/productos/todos/1'
     }
 }
 
@@ -22,7 +22,7 @@ const estado = async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({estado})
         });
-        if (resp.ok) location.href = '/productos'
+        if (resp.ok) location.href = '/productos/todos/1'
     }
 }
 
