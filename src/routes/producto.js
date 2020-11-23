@@ -9,7 +9,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const { logAdmin } = require('../lib/auth');
 
-router.get('/:pagina', logAdmin, async (req, res) => {
+router.get('/todos/:pagina', logAdmin, async (req, res) => {
     const porPagina = 8;
     const pagina = req.params.pagina || 1;
     let categorias = {};

@@ -29,5 +29,5 @@ const estado = async (e) => {
 const filtrar = () => {
     const categoria = document.querySelector('.categoria-buscar').value;
     const subCat = document.querySelector('.subCat-buscar').value;
-    location.href = `/productos/1?categoria=${categoria}&subCat=${subCat}`;
+    location.href = `/productos/todos/1?categoria=${categoria}&subCat=${subCat}`;
 }
