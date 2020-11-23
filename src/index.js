@@ -57,6 +57,8 @@ app.use('/productos', require('./routes/producto'));
 app.use('/categorias', require('./routes/categoria'));
 app.use('/carrito', require('./routes/carrito'));
 app.use('/venta', require('./routes/venta'));
+app.use('/dashboard', require('./routes/dashboard'));
+
 
 //Archivos Publicos
 app.use(express.static(path.join(__dirname, 'public')));

@@ -12,7 +12,7 @@ router.get('/signin', noLogueado, (req, res) => {
 
 router.post('/signin', noLogueado, (req, res, next) => {
     passport.authenticate('local.signin', {
-        successRedirect: '/profile',
+        successRedirect: '/dashboard',
         failureRedirect: '/signin',
         failureFlash: true
     })(req, res, next);

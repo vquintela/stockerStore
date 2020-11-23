@@ -1,0 +1,35 @@
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10 filas-detalles">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Bienvenido {{user.nombre}} {{user.apellido}} !</h1>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card text-white shadow h-100 py-2 bg-success">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Compras Realizadas:</div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 text-white font-weight-bold text-gray-800">
+                                                {{ventasUser}}</div>
+                                        </div>
+                                        <div class="col">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <a class="fas fa-calendar fa-2x text-white" href="/alquileres">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
