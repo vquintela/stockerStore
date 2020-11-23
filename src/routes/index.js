@@ -54,9 +54,10 @@ router.get('/todos/:categoria/:pagina', async (req, res) => {
     const categoria = req.params.categoria;
     let consulta = categoria != 'todos' ? { id_prod_cat: categoria } : {};
     if (req.query.destacado) consulta = { ...consulta, destacado: req.query.destacado };
+    if (req.query.subCat) consulta = { ...consulta, id_prod_cat_padre: req.query.subCat };
     let orden = {};
     if (req.query.orden) orden = { nombre: req.query.orden };
-    const [count, productos, categorias] = await Promise.all([
+    const [count, productos, categorias, subCategorias] = await Promise.all([
         Productos.countDocuments({ ...consulta, estado: true }),
         Productos.find({ ...consulta, estado: true })
             .populate({ path: 'marca_id', select: 'marca' })
@@ -64,7 +65,8 @@ router.get('/todos/:categoria/:pagina', async (req, res) => {
             .skip((porPagina * pagina) - porPagina)
             .limit(porPagina)
             .lean(),
-        Categorias.find({estado: true, categoriaPadre: "0"}).lean()
+        Categorias.find({estado: true, categoriaPadre: "0"}).lean(),
+        Categorias.find({estado: true, categoriaPadre: categoria}).lean()
     ]);
     res.render('productos', {
         productos: productos,
@@ -73,7 +75,10 @@ router.get('/todos/:categoria/:pagina', async (req, res) => {
         actual: pagina,
         categoria: categoria,
         destacado: req.query.destacado || '',
-        orden: req.query.orden || ''
+        orden: req.query.orden || '',
+        subCategorias: subCategorias,
+        actualCategoria: req.params.categoria,
+        actualSubCat: req.query.subCat || ''
     });
 });
 
