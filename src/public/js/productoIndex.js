@@ -1,6 +1,7 @@
 document.querySelectorAll('.eliminar').forEach(btn => btn.addEventListener('click', e => eliminar(e)));
 document.querySelectorAll('.estado').forEach(btn => btn.addEventListener('click', e => estado(e)));
-document.querySelector('.estado-buscar').addEventListener('change', () => filtrar());
+document.querySelector('.categoria-buscar').addEventListener('change', () => filtrar());
+document.querySelector('.subCat-buscar').addEventListener('change', () => filtrar());
 
 const eliminar = async (e) => {
     const id = e.target.getAttribute('data-id');
@@ -26,10 +27,7 @@ const estado = async (e) => {
 }
 
 const filtrar = () => {
-    const estado = document.querySelector('.estado-buscar').value;
-    if(estado === 'todos') {
-        location.href = `/marcas`;
-    } else {
-        location.href = `/marcas/buscar/${estado}`;
-    }
+    const categoria = document.querySelector('.categoria-buscar').value;
+    const subCat = document.querySelector('.subCat-buscar').value;
+    location.href = `/productos/1?categoria=${categoria}&subCat=${subCat}`;
 }

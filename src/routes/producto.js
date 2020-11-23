@@ -8,10 +8,30 @@ const errorMessage = require('../lib/errorMessageValidation');
 const path = require('path');
 const fs = require('fs-extra');
 
-router.get('/', async (req, res) => {
-    const productos = await Producto.find().populate({ path: 'marca_id' }).lean();
+router.get('/:pagina', async (req, res) => {
+    const porPagina = 8;
+    const pagina = req.params.pagina || 1;
+    let categorias = {};
+    if (req.query.categoria) categorias = { id_prod_cat: req.query.categoria };
+    if (req.query.subCat && req.query.categoria != '') categorias = { id_prod_cat_padre: req.query.subCat };
+    const [count, productos, catPadre, subCat] = await Promise.all([
+        Producto.countDocuments(categorias),
+        Producto.find(categorias)
+            .populate({ path: 'marca_id' })
+            .skip((porPagina * pagina) - porPagina)
+            .limit(porPagina)
+            .lean(),
+        Categoria.find({categoriaPadre: '0'}).lean(),
+        Categoria.find({categoriaPadre: req.query.categoria}).lean()
+    ]);
     res.render('productos/', {
-        productos: productos
+        productos: productos,
+        actualCategoria: req.query.categoria || '',
+        actualSubCategoria: req.query.subCat || '',
+        paginacion: Math.ceil(count / porPagina),
+        actual: pagina,
+        catPadre: catPadre,
+        subCat: subCat
     });
 });
 
