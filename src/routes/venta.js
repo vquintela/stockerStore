@@ -71,7 +71,6 @@ router.get('/failure', async(req, res) => {
     try {
         venta = new Venta({...req.session.venta, status, payment_id, merchant_order_id });
         const res = await venta.save();
-        req.session.destroy();
     } catch (error) {
         console.log(error)
     }
@@ -86,7 +85,6 @@ router.get('/pending', async(req, res) => {
     try {
         venta = new Venta({...req.session.venta, status, payment_id, merchant_order_id });
         const res = await venta.save();
-        req.session.destroy();
     } catch (error) {
         console.log(error)
     }
@@ -105,7 +103,6 @@ router.get('/efectivo', async(req, res) => {
             prod.cantidad = prod.cantidad - det.cantidad;
             await Producto.updateOne({_id: prod._id}, {cantidad: prod.cantidad});
         });
-        req.session.destroy();
     } catch (error) {
         console.log(error)
         return
