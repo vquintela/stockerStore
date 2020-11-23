@@ -20,7 +20,7 @@ const ventaSchema = new Schema({
     id_usuario: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'users'
+        ref: 'user'
     },
     fecha: {
         type: Date,
@@ -29,14 +29,6 @@ const ventaSchema = new Schema({
     total_venta: {
         type: Number,
         min: [0, 'La venta no puede ser menor a cero']
-    },
-    estado: {
-        type: String,
-        enum: {
-            values: ['cerrado', 'rechazado' ,'aprobado'],
-            message: '¡Debe elegir un rol!'
-        },
-        default: 'cerrado'
     },
     forma_pago: {
         type: String,
@@ -49,7 +41,10 @@ const ventaSchema = new Schema({
         type: [ detalleVenta ]
     },
     status: {
-        type: String
+        type: String,
+        enum: {
+            values: ['approved', 'in_process', 'rejected', 'efectivo']
+        }
     }, 
     payment_id: {
         type: String

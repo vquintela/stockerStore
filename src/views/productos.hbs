@@ -9,7 +9,34 @@
         <h1 class="font-weight-bold font-italic">LISTADO DE PRODUCTOS</h1>
         <a href="/todos/todos/1" class="btn btn-sm btn-success">Todos</a>
     </div>
-    {{>navCategorias}}
+    <div class="d-flex justify-content-end align-items-center mt-2">
+        {{!-- NAVEGACION CATEGORIAS --}}
+        <div class="col-md-6 m-0 d-flex">
+            <h3 class="ml-auto">Categoria:</h3>
+            <div class="form-group ml-2">
+                <select name="marca_id" id="filtro-categoria" class="form-control">
+                    <option value="todos">Todos</option>
+                    {{#each categorias}}
+                    <option value={{this._id}} {{#if (estado @root.actualCategoria this._id) }}selected{{/if}}>{{this.nombre}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        {{!-- NAVEGACION SUBCATEGORIAS --}}
+        {{#if subCategorias}}
+        <div class="col-md-6 m-0 d-flex">
+            <h3 class="ml-auto">Subcategoria:</h3>
+            <div class="form-group ml-2">
+                <select name="marca_id" id="filtro-subCat" class="form-control">
+                    <option value="">Todos</option>
+                    {{#each subCategorias}}
+                    <option value={{this._id}} {{#if (estado @root.actualSubCat this._id) }}selected{{/if}}>{{this.nombre}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        {{/if}}
+    </div>
     <div class="d-flex justify-content-end align-items-center mt-2">
         {{!-- PAGINACION PRODUCTOS --}}
         <nav class="ml-2" aria-label="Page navigation example">
@@ -23,10 +50,6 @@
             <h3 class="ml-auto">Tipo de Producto:</h3>
             <div class="form-group ml-2">
                 <select name="marca_id" id="filtro-destacado" class="form-control">
-                    {{!-- {{#if producto.marca_id}}
-                    <option value="{{producto.marca_id._id}}">{{producto.marca_id.marca}}
-                    </option>
-                    {{/if}} --}}
                     <option value="">Todos</option>
                     <option value="true"{{#if destacado}}selected{{/if}}>Destacados</option>
                 </select>
@@ -37,13 +60,9 @@
             <h3 class="ml-auto">Orden:</h3>
             <div class="form-group ml-2">
                 <select name="marca_id" id="filtro-orden" class="form-control">
-                    {{!-- {{#if producto.marca_id}}
-                    <option value="{{producto.marca_id._id}}">{{producto.marca_id.marca}}
-                    </option>
-                    {{/if}} --}}
                     <option value="">Ordenar por..</option>
-                    <option value="1">A a la Z</option>
-                    <option value="-1">Z a la A</option>
+                    <option value="1" {{#estado orden 1 }}{{/estado}}>A a la Z</option>
+                    <option value="-1" {{#estado orden -1 }}{{/estado}}>Z a la A</option>
                 </select>
             </div>
         </div>
@@ -56,7 +75,7 @@
     {{!-- PAGINACION PRODUCTOS --}}
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            {{#for paginacion actual categoria destacado orden}}
+            {{#for paginacion actual categoria destacado orden actualSubCat}}
             {{/for}}
         </ul>
     </nav>

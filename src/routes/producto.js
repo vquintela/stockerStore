@@ -8,16 +8,36 @@ const errorMessage = require('../lib/errorMessageValidation');
 const path = require('path');
 const fs = require('fs-extra');
 
-router.get('/', async (req, res) => {
-    const productos = await Producto.find().populate({ path: 'marca_id' }).lean();
+router.get('/:pagina', async (req, res) => {
+    const porPagina = 8;
+    const pagina = req.params.pagina || 1;
+    let categorias = {};
+    if (req.query.categoria) categorias = { id_prod_cat: req.query.categoria };
+    if (req.query.subCat && req.query.categoria != '') categorias = { id_prod_cat_padre: req.query.subCat };
+    const [count, productos, catPadre, subCat] = await Promise.all([
+        Producto.countDocuments(categorias),
+        Producto.find(categorias)
+            .populate({ path: 'marca_id' })
+            .skip((porPagina * pagina) - porPagina)
+            .limit(porPagina)
+            .lean(),
+        Categoria.find({categoriaPadre: '0'}).lean(),
+        Categoria.find({categoriaPadre: req.query.categoria}).lean()
+    ]);
     res.render('productos/', {
-        productos: productos
+        productos: productos,
+        actualCategoria: req.query.categoria || '',
+        actualSubCategoria: req.query.subCat || '',
+        paginacion: Math.ceil(count / porPagina),
+        actual: pagina,
+        catPadre: catPadre,
+        subCat: subCat
     });
 });
 
 router.get('/crear', async (req, res) => {
     const marcas = await Marca.find().where('estado').equals(true).lean();
-    const categorias = await Categoria.find().where('estado').equals(true).lean();
+    const categorias = await Categoria.find({estado: true, categoriaPadre: "0"}).lean();
     res.render('productos/crear', {
         titulo: 'Crear Producto',
         action: '/productos/crear',
@@ -211,6 +231,16 @@ router.post('/comentar/:id', (req, res)=>{
     const comentario = new Comentario({ ...req.body });
     comentario.save()
     .then(response => res.send(response))
+
+});
+
+router.get('/subcat/:id', async (req, res) => {
+    try {
+        const subCat = await Categoria.find({categoriaPadre: req.params.id}).lean();
+        res.status(200).json(subCat);
+    } catch (error) {
+        res.status(400).json('LPM algo paso');
+    }
 
 });
 

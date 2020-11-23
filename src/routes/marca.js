@@ -5,12 +5,15 @@ const errorMessage = require('../lib/errorMessageValidation');
 const Producto = require('../model/producto');
 
 router.get('/', async (req, res) => {
-    const marcas = await Marca.find().lean();
+    let estado = {};
+    if (req.query.estado) estado = { estado: req.query.estado };
+    const marcas = await Marca.find(estado).lean();
     res.render('marcas/', {
         titulo: 'Agregar marca',
         boton: 'Guardar',
         action: '/marcas',
-        marcas: marcas
+        marcas: marcas,
+        actual: req.query.estado
     });
 });
 
@@ -80,18 +83,6 @@ router.put('/estado/:id', async (req, res) => {
     if (estado) await Producto.updateMany({estado: false}).where('marca_id').equals(req.params.id)
     req.flash('success', 'Estado Modificado de Forma Correcta');
     res.status(200).json('Ok');
-});
-
-router.get('/buscar/:estado', async (req, res) => {
-    const marcas = await Marca.find({'estado': req.params.estado}).lean();
-    const estado = JSON.parse(req.params.estado) ? {nombre: 'activos', value: 'true'} : {nombre: 'inactivos', value: 'false'};
-    res.render('marcas/', {
-        titulo: 'Agregar Marca',
-        boton: 'Guardar',
-        action: '/marcas',
-        marcas: marcas,
-        estadoActual: estado
-    });
 });
 
 module.exports = router;

@@ -31,3 +31,29 @@ document.getElementById('modelo').onchange = e => {
 }
 
 // INSERTA SUBCATEGORIAS
+document.getElementById('categoria').onchange = async (e) => {
+    const res = await fetch(`/productos/subcat/${e.target.value}`, { 
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+    const categorias = JSON.parse(await res.text());
+    insertarFilas(categorias);
+}
+
+const insertarFilas = categorias => {
+    const fragment = new DocumentFragment();
+    categorias.forEach(categoria => {
+        const option = crearSelect(categoria);
+        fragment.appendChild(option);
+    });
+    const subCat = document.getElementById('subCategoria');
+    subCat.innerText = ''
+    subCat.appendChild(fragment);
+}
+
+const crearSelect = categoria => {
+    const option = document.createElement('option');
+    option.value = categoria._id;
+    option.textContent = categoria.nombre;
+    return option;
+}

@@ -5,11 +5,16 @@ const errorMessage = require('../lib/errorMessageValidation');
 const mailer = require('../lib/mailer');
 
 router.get('/', async (req, res) => {
-    const usuarios = await User.find().select('-password').lean();
+    let consulta = {};
+    if (req.query.estado) consulta = { estado: req.query.estado };
+    if (req.query.rol) consulta = {...consulta, rol: req.query.rol };
+    const usuarios = await User.find(consulta).select('-password').lean();
     const roles = User.schema.path('rol').enumValues;
     res.render('users', { 
         usuarios: usuarios,
-        roles: roles 
+        roles: roles,
+        actualEstado: req.query.estado,
+        actualRol: req.query.rol
     });
 });
 
@@ -93,30 +98,6 @@ router.put('/estado/:id', async (req, res) => {
     await User.findByIdAndUpdate({ _id: req.params.id }, { estado: !estado });
     req.flash('success', 'Estado Modificado de Forma Correcta');
     res.status(200).json('Ok');
-});
-
-router.get('/buscar/:estado/:rol', async (req, res) => {
-    const rol = req.params.rol;
-    let estado = req.params.estado;
-    let usuarios
-    if (rol === 'todos') {
-        usuarios = await User.find().select('-password').lean();
-    } else {
-        usuarios = await User.find({rol: rol}).select('-password').lean();
-    }
-    if (estado !== 'todos') {
-        usuarios = usuarios.filter(user => user.estado == JSON.parse(estado));
-        estado = JSON.parse(estado) ? {nombre: 'activos', value: 'true'} : {nombre: 'bloqueados', value: 'false'};
-    } else {
-        estado = {nombre: 'Estado Usuario', value: 'todos'};
-    }
-    const roles = User.schema.path('rol').enumValues;
-    res.render('users', { 
-        usuarios: usuarios,
-        roles: roles,
-        rolActual: rol,
-        estadoActual: estado
-    });
 });
 
 router.get('/newpws', (req, res) => {

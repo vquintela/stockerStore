@@ -7,12 +7,27 @@
     </div>
     <hr>
     <div class="mt-2 pl-2">
+        <h4 class="text-muted productos-menu"><i class="fas fa-wallet pr-2"></i>Pagos</h4>
+        <div class="contenedor-menu">
+            <div class="menu-desp">
+                <hr>
+                <div>
+                    <a class="text-decoration-none text-dark" href="/venta/1">
+                        <h6><i class="fas fa-list-ul pr-2"></i>Ver Pagos</h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+{{#if (estado user.rol 'administrador')}}
+    <div class="mt-2 pl-2">
         <h4 class="text-muted productos-menu"><i class="fas fa-shopping-cart pr-2"></i>Productos</h4>
         <div class="contenedor-menu">
             <div class="menu-desp">
                 <hr>
                 <div>
-                    <a class="text-decoration-none text-dark" href="/productos">
+                    <a class="text-decoration-none text-dark" href="/productos/1">
                         <h6><i class="fas fa-list-ul pr-2"></i>Ver Productos</h6>
                     </a>
                 </div>
@@ -60,10 +75,12 @@
         </div>
     </div>
     <hr>
+{{/if}}
     <div class="mt-2 pl-2">
         <h4 class="text-muted productos-menu"><i class="fas fa-users-cog pr-2"></i>Usuario</h4>
         <div class="contenedor-menu">
             <div class="menu-desp">
+{{#if (estado user.rol 'administrador')}}
                 <hr>
                 <div>
                     <a class="text-decoration-none text-dark" href="/users">
@@ -76,6 +93,7 @@
                         <h6><i class="fas fa-user-plus pr-2"></i>Crear Usuario</h6>
                     </a>
                 </div>
+{{/if}}
                 <hr>
                 <div>
                     <a class="text-decoration-none text-dark" href="/users/newpws">

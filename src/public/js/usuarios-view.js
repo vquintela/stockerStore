@@ -29,5 +29,5 @@ const estado = async (e) => {
 const filtrar = () => {
     const rol = document.querySelector('.rol-buscar').value;
     const estado = document.querySelector('.estado-buscar').value;
-    location.href = `/users/buscar/${estado}/${rol}`;
+    location.href = `/users?estado=${estado}&rol=${rol}`;
 }

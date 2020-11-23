@@ -1,0 +1,92 @@
+<div class="row w-100">
+    {{>sidebar}}
+    <div class="col-md-10">
+        <div class="d-flex align-items-center mt-3">
+            <div>
+                <h3 class="pl-5">VENTAS</h3>
+            </div>
+            <div class="d-flex ml-auto align-items-center col-md-4">
+                <select id="estado-venta" class="form-control mr-4">
+                    <option value="">todos</option>
+                    {{#each estados }}
+                    <option value="{{this}}" {{#if (estado @root.actualEstado this) }}selected{{/if}}>
+                        {{#status this}}{{/status}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <div class="p-4" id="contenedor">
+            <div class="row justify-content-betwen" id="App">
+                <table class="table text-center" id="filas">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Forma Pago</th>
+                            <th scope="col">Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody id="insertar-filas">
+                        {{#each ventas}}
+                        <tr>
+                            <th>{{this.id_usuario.nombre}} {{this.id_usuario.apellido}}</th>
+                            <th>{{#date this.fecha}}{{/date}}</th>
+                            <th>$ {{this.total_venta}}</th>
+                            {{#status this.status}}{{/status}}
+                            <th>{{this.forma_pago}}</th>
+                            <th>
+                                <button class="btn btn-sm btn-primary detalle-venta" data-id="{{this._id}}">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Ver Detalle
+                                </button>
+                            </th>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <th>
+                                <h3>No hay ventas</h3>
+                            </th>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{!-- PAGINACION PRODUCTOS --}}
+                <nav class="ml-2" aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {{#pagProd paginacion actual actualEstado }}
+                        {{/pagProd}}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- MODAL DETALLE VENTA --}}
+<div id="modal-detalle" class="mascara">
+    <div class="contenido">
+      <div class="modal-header border-0">
+        <h2 id="titulo-modal">Detalle Venta</h2>
+        <span class="cerrar" id="cerrarModalDetalle">&times;</span>
+      </div>
+      <div class="modal-body">
+        <section>
+            <table class="table text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="panelResultadosModal">
+
+                </tbody>
+            </table>
+        </section>
+      </div>
+    </div>
+</div>
+<script src="/js/ventaListado.js"></script>

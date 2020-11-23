@@ -16,6 +16,11 @@ const productoSchema = new Schema({
         ref: "categoria",
         required: [true, '¡Campo obligatorio!'],
     },
+    id_prod_cat_padre: {
+        type: Schema.Types.ObjectId,
+        ref: "categoria",
+        required: [true, '¡Campo obligatorio!'],
+    },
     marca_id: {
         type: Schema.Types.ObjectId,
         ref: 'marca',

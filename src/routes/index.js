@@ -13,10 +13,7 @@ router.get('/', async (req, res) => {
             .where('destacado').equals(true)
             .populate({ path: 'marca_id', select: 'marca' })
             .lean(),
-        Categorias.find()
-            .where('estado').equals(true)
-            .populate({ path: 'categoriaPadre' })
-            .lean()
+        Categorias.find({estado: true, categoriaPadre: "0"}).lean()
     ]);
     let list = [];
     const number = [];
@@ -52,15 +49,15 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/todos/:categoria/:pagina', async (req, res) => {
-    const porPagina = 2;
+    const porPagina = 6;
     const pagina = req.params.pagina || 1;
     const categoria = req.params.categoria;
     let consulta = categoria != 'todos' ? { id_prod_cat: categoria } : {};
     if (req.query.destacado) consulta = { ...consulta, destacado: req.query.destacado };
+    if (req.query.subCat) consulta = { ...consulta, id_prod_cat_padre: req.query.subCat };
     let orden = {};
     if (req.query.orden) orden = { nombre: req.query.orden };
-    console.log(consulta, orden)
-    const [count, productos, categorias] = await Promise.all([
+    const [count, productos, categorias, subCategorias] = await Promise.all([
         Productos.countDocuments({ ...consulta, estado: true }),
         Productos.find({ ...consulta, estado: true })
             .populate({ path: 'marca_id', select: 'marca' })
@@ -68,10 +65,8 @@ router.get('/todos/:categoria/:pagina', async (req, res) => {
             .skip((porPagina * pagina) - porPagina)
             .limit(porPagina)
             .lean(),
-        Categorias.find()
-            .where('estado').equals(true)
-            .populate({ path: 'categoriaPadre' })
-            .lean()
+        Categorias.find({estado: true, categoriaPadre: "0"}).lean(),
+        Categorias.find({estado: true, categoriaPadre: categoria}).lean()
     ]);
     res.render('productos', {
         productos: productos,
@@ -80,7 +75,10 @@ router.get('/todos/:categoria/:pagina', async (req, res) => {
         actual: pagina,
         categoria: categoria,
         destacado: req.query.destacado || '',
-        orden: req.query.orden || ''
+        orden: req.query.orden || '',
+        subCategorias: subCategorias,
+        actualCategoria: req.params.categoria,
+        actualSubCat: req.query.subCat || ''
     });
 });
 
@@ -89,10 +87,7 @@ router.get('/ver/:id', async (req, res) => {
         Productos.findById({ _id: req.params.id })
             .populate({ path: 'marca_id', select: 'marca' })
             .lean(),
-        Categorias.find()
-            .where('estado').equals(true)
-            .populate({ path: 'categoriaPadre' })
-            .lean(),
+        Categorias.find({estado: true, categoriaPadre: "0"}).lean(),
         Comentarios.find({ producto: req.params.id })
             .sort({ fecha: -1 })
             .limit(5)
@@ -107,6 +102,7 @@ router.get('/ver/:id', async (req, res) => {
         comentarios: comentarios,
         promedio:{
             valor: promedio,
+            cero: promedio === 0,
             uno: promedio > 0 && promedio < 2,
             dos: promedio >= 2 && promedio < 3,
             tres: promedio >= 3 && promedio < 4,
@@ -118,6 +114,10 @@ router.get('/ver/:id', async (req, res) => {
 
 const obtenerPromedio = (comentarios) => {
     const ranqueos = comentarios.map(c => c.ranqueo);
+    
+    if(ranqueos.length === 0)
+        return 0;
+
     return ranqueos.reduce((a, b) => a + b) / ranqueos.length;
 };
 
