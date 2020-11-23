@@ -214,4 +214,14 @@ router.post('/comentar/:id', (req, res)=>{
 
 });
 
+router.get('/subcat/:id', async (req, res) => {
+    try {
+        const subCat = await Categoria.find({categoriaPadre: req.params.id}).lean();
+        res.status(200).json(subCat);
+    } catch (error) {
+        res.status(400).json('LPM algo paso');
+    }
+
+});
+
 module.exports = router;

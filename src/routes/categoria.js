@@ -5,11 +5,13 @@ const categoriaSchema = require('../model/categoria');
 const productoSchema = require('../model/producto');
 
 router.get('/', async (req, res) => {
-    const categorias = await categoriaSchema.find({categoriaPadre: "0", estado: true}).lean();
+    const categorias = await categoriaSchema.find().lean();
+    const categoriasPadre = await categoriaSchema.find({categoriaPadre: "0"}).lean();
     res.render('categorias', {
         titulo: 'Agregar categoría',
         boton: 'Guardar',
         action: '/categorias',
+        categoriasPadre: categoriasPadre,
         categorias: categorias
     });
 });
@@ -21,8 +23,7 @@ router.post('/', async (req, res) => {
     categoria.categoriaPadre = value.categoriaPadre != "" ? value.categoriaPadre : "0";
 
     try {
-        const cat = await categoria.save();
-        console.log(cat)
+        await categoria.save();
         req.flash('success', 'Categoría ingresada correctamente.');
         res.redirect('/categorias');
     } catch (error) {
@@ -42,19 +43,21 @@ router.post('/', async (req, res) => {
 router.get('/editar/:id', async (req, res) => {
     const categoria = await categoriaSchema.findById({ _id: req.params.id }).lean();
     const categorias = await categoriaSchema.find({ _id: { $ne: req.params.id} }).lean();
+    const categoriasPadre = await categoriaSchema.find({categoriaPadre: "0"}).lean();
     res.render('categorias', {
         titulo: 'Editar categoría',
         boton: 'Editar',
         action: `/categorias/editar/${categoria._id}`,
         categorias: categorias,
         value: categoria.nombre,
-        value: categoria.categoriaPadre,
+        categoriasPadre: categoriasPadre,
     });
 });
 
 router.post('/editar/:id', async (req, res) => {
     try {
-        await Marca.findByIdAndUpdate({ _id: req.params.id }, { marca: req.body.marca }, { runValidators: true });
+        const categoriaPadre = req.body.categoriaPadre != "" ? req.body.categoriaPadre : "0";
+        await categoriaSchema.findByIdAndUpdate({ _id: req.params.id }, { marca: req.body.marca,  categoriaPadre: categoriaPadre}, { runValidators: true });
         req.flash('success', 'Categoría actualizada');
         res.redirect('/categorias')
     } catch (error) {

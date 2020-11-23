@@ -103,7 +103,8 @@ const comentar = (id) => {
         });
 }
 
-document.querySelector('#btn-comentario').addEventListener('click', ()=>{
+const btnComentario = document.querySelector('#btn-comentario');
+if(btnComentario) btnComentario.addEventListener('click', ()=>{
     const producto = document.querySelector('#producto').value;
     comentar(producto);
 });
