@@ -20,8 +20,8 @@
         <a href="/todos/todos/1" class="btn btn-sm btn-success">Ver Catalogo</a>
     </div>
     {{!-- NAVEGACION CATEGORIAS --}}
-    <div class="col-md-6 m-0 d-flex">
-        <h3 class="ml-auto">Categoria:</h3>
+    <div class="col-md-4 m-0 d-flex">
+        <h3 class="mr-auto">Categoria:</h3>
         <div class="form-group ml-2">
             <select name="marca_id" id="filtro-categoria" class="form-control">
                 <option value="todos">Todos</option>
@@ -31,6 +31,7 @@
             </select>
         </div>
     </div>
+    {{!-- LISTADO DE PRODUCTOS DESTACADOS --}}
     <div class="row">
         {{#each productos}}
         {{>cardProducto}}
