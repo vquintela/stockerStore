@@ -103,9 +103,15 @@ const comentar = (id) => {
         });
 }
 
+// BOTON COMENTARIO
 const btnComentario = document.querySelector('#btn-comentario');
 if(btnComentario) btnComentario.addEventListener('click', ()=>{
     const producto = document.querySelector('#producto').value;
     comentar(producto);
 });
 
+// FILTRO CATEGORIAS INDEX
+const filtroCat = document.getElementById('filtro-categoria');
+if (filtroCat) filtroCat.addEventListener('change', () => {
+    location.href = `/todos/${filtroCat.value}/1`;
+});

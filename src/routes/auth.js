@@ -4,12 +4,13 @@ const passport = require('passport');
 const mailer = require('../lib/mailer');
 const User = require('../model/users');
 const errorMessage = require("../lib/errorMessageValidation");
+const { logueado, noLogueado } = require('../lib/auth');
 
-router.get('/signin', (req, res) => {
+router.get('/signin', noLogueado, (req, res) => {
     res.render('auth/signin');
 });
 
-router.post('/signin', (req, res, next) => {
+router.post('/signin', noLogueado, (req, res, next) => {
     passport.authenticate('local.signin', {
         successRedirect: '/profile',
         failureRedirect: '/signin',
@@ -17,7 +18,7 @@ router.post('/signin', (req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/signup', (req, res) => {
+router.get('/signup', noLogueado, (req, res) => {
     res.render('auth/signup');
 });
 
@@ -70,7 +71,7 @@ router.get('/verifica', async (req, res) => {
     }
 })
 
-router.post('/renew', async (req, res) => {
+router.post('/renew', logueado, async (req, res) => {
     const { email } = req.body;
     if (!email.trim()) {
         req.flash('danger', 'Ingrese su email por favor');
@@ -90,7 +91,7 @@ router.post('/renew', async (req, res) => {
     }
 })
 
-router.get('/logout', (req, res) => {
+router.get('/logout', logueado, (req, res) => {
     req.logOut();
     res.redirect('/');
 })

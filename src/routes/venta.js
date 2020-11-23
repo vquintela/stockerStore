@@ -4,6 +4,7 @@ const Carrito = require('../model/carrito');
 const Venta = require('../model/venta');
 const Producto = require('../model/producto');
 const { generarPago } = require('../lib/mercadopago');
+const { logAdmin } = require('../lib/auth');
 
 router.post('/pagar', async (req, res) => {
     if (!req.isAuthenticated() || !req.session.carrito) {
@@ -114,7 +115,7 @@ router.get('/efectivo', async(req, res) => {
     });
 });
 
-router.get('/:pagina', async (req, res) => {
+router.get('/:pagina', logAdmin, async (req, res) => {
     const porPagina = 6;
     const pagina = req.params.pagina || 1;
     let estado = {};
@@ -140,7 +141,7 @@ router.get('/:pagina', async (req, res) => {
     });
 });
 
-router.get('/detalle/:id', async (req, res) => {
+router.get('/detalle/:id', logAdmin, async (req, res) => {
     console.log(req.params.id);
     const venta = await Venta.findById(req.params.id)
         .populate({path: 'detalle',

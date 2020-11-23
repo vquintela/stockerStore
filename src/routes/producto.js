@@ -7,8 +7,9 @@ const Comentario = require('../model/comentario');
 const errorMessage = require('../lib/errorMessageValidation');
 const path = require('path');
 const fs = require('fs-extra');
+const { logAdmin } = require('../lib/auth');
 
-router.get('/:pagina', async (req, res) => {
+router.get('/:pagina', logAdmin, async (req, res) => {
     const porPagina = 8;
     const pagina = req.params.pagina || 1;
     let categorias = {};
@@ -35,7 +36,7 @@ router.get('/:pagina', async (req, res) => {
     });
 });
 
-router.get('/crear', async (req, res) => {
+router.get('/crear', logAdmin, async (req, res) => {
     const marcas = await Marca.find().where('estado').equals(true).lean();
     const categorias = await Categoria.find({estado: true, categoriaPadre: "0"}).lean();
     res.render('productos/crear', {
@@ -47,7 +48,7 @@ router.get('/crear', async (req, res) => {
     });
 });
 
-router.post('/crear', async (req, res) => {
+router.post('/crear', logAdmin, async (req, res) => {
     const values = req.body;
     values.destacado = (values.destacado == 'on') ? true : false;
     const producto = new Producto({ ...values });
@@ -131,7 +132,7 @@ router.post('/crear', async (req, res) => {
     }
 });
 
-router.delete('/eliminar/:id', async (req, res) => {
+router.delete('/eliminar/:id', logAdmin, async (req, res) => {
     const del = await Producto.findByIdAndDelete({_id: req.params.id});
     if (del.imagen != 'sinimagen.png') {
         await fs.unlink(path.resolve('./src/public/img/' + del.imagen));
@@ -140,7 +141,7 @@ router.delete('/eliminar/:id', async (req, res) => {
     res.status(200).json('ok');
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', logAdmin, async (req, res) => {
     const producto = await Producto.findById({_id: req.params.id})
         .populate({ path: 'marca_id id_prod_cat', select: 'marca nombre'})
         .lean();
@@ -156,7 +157,7 @@ router.get('/:id', async (req, res) => {
     });
 });
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', logAdmin, async (req, res) => {
     const values = req.body;
     values.destacado = values.destacado == 'on';
     values.comentarios = values.comentarios == 'on';
@@ -220,7 +221,7 @@ router.post('/:id', async (req, res) => {
     }
 });
 
-router.put('/estado/:id', async (req, res) => {
+router.put('/estado/:id', logAdmin, async (req, res) => {
     const estado = req.body.estado;
     await Producto.findByIdAndUpdate({ _id: req.params.id }, { estado: !estado });
     req.flash('success', 'Estado Modificado de Forma Correcta');

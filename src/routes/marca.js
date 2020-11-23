@@ -3,8 +3,9 @@ const router = express.Router();
 const Marca = require('../model/marca');
 const errorMessage = require('../lib/errorMessageValidation');
 const Producto = require('../model/producto');
+const { logAdmin } = require('../lib/auth');
 
-router.get('/', async (req, res) => {
+router.get('/', logAdmin, async (req, res) => {
     let estado = {};
     if (req.query.estado) estado = { estado: req.query.estado };
     const marcas = await Marca.find(estado).lean();
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
     });
 });
 
-router.post('/', async (req, res) => {
+router.post('/', logAdmin, async (req, res) => {
     const value = req.body;
     const marca = new Marca({...value})
     try {
@@ -38,7 +39,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/editar/:id', async (req, res) => {
+router.get('/editar/:id', logAdmin, async (req, res) => {
     const [marca, marcas] = await Promise.all([
         Marca.findById({ _id: req.params.id }).lean(),
         Marca.find().lean()
@@ -52,7 +53,7 @@ router.get('/editar/:id', async (req, res) => {
     });
 });
 
-router.post('/editar/:id', async (req, res) => {
+router.post('/editar/:id', logAdmin, async (req, res) => {
     try {
         await Marca.findByIdAndUpdate({ _id: req.params.id }, { marca: req.body.marca }, { runValidators: true });
         req.flash('success', 'Marca Actualizada');
@@ -71,13 +72,13 @@ router.post('/editar/:id', async (req, res) => {
     }
 });
 
-router.delete('/eliminar/:id', async (req, res) => {
+router.delete('/eliminar/:id', logAdmin, async (req, res) => {
     await Marca.findByIdAndDelete({_id: req.params.id})
     req.flash('success', 'Marca Eliminada de Forma Correcta');
     res.status(200).json('Ok');
 });
 
-router.put('/estado/:id', async (req, res) => {
+router.put('/estado/:id', logAdmin, async (req, res) => {
     const estado = req.body.estado;
     await Marca.findByIdAndUpdate({ _id: req.params.id }, { estado: !estado });
     if (estado) await Producto.updateMany({estado: false}).where('marca_id').equals(req.params.id)

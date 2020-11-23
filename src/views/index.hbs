@@ -20,7 +20,17 @@
         <a href="/todos/todos/1" class="btn btn-sm btn-success">Ver Catalogo</a>
     </div>
     {{!-- NAVEGACION CATEGORIAS --}}
-    {{>navCategorias}}
+    <div class="col-md-6 m-0 d-flex">
+        <h3 class="ml-auto">Categoria:</h3>
+        <div class="form-group ml-2">
+            <select name="marca_id" id="filtro-categoria" class="form-control">
+                <option value="todos">Todos</option>
+                {{#each categorias}}
+                <option value={{this._id}}>{{this.nombre}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
     <div class="row">
         {{#each productos}}
         {{>cardProducto}}
