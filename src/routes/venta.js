@@ -138,7 +138,7 @@ router.get('/:pagina', logueado, async (req, res) => {
     });
 });
 
-router.get('/detalle/:id', logAdmin, async (req, res) => {
+router.get('/detalle/:id', logueado, async (req, res) => {
     console.log(req.params.id);
     const venta = await Venta.findById(req.params.id)
         .populate({path: 'detalle',
