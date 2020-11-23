@@ -95,8 +95,10 @@ router.delete('/eliminar/:id', logAdmin, async (req, res) => {
 });
 
 router.put('/estado/:id', logAdmin, async (req, res) => {
-    const estado = req.body.estado;
-    await User.findByIdAndUpdate({ _id: req.params.id }, { estado: !estado });
+    // const estado = req.body.estado;
+    // console.log(estado)
+    const user = await User.findById(req.params.id);
+    await User.findByIdAndUpdate({ _id: req.params.id }, { estado: !user.estado});
     req.flash('success', 'Estado Modificado de Forma Correcta');
     res.status(200).json('Ok');
 });

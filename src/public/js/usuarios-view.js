@@ -14,13 +14,11 @@ const eliminar = async (e) => {
 
 const estado = async (e) => {
     const id = e.target.getAttribute('data-id');
-    const estado = JSON.parse(e.target.getAttribute('estado-usuario'));
     const res = await modal('Cambiar Estado', '¿Desea cambiar el estado de este usuario?')
     if (res) {
         const resp = await fetch(`/users/estado/${id}`, { 
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({estado})
         });
         if (resp.ok) location.href = '/users'
     }
