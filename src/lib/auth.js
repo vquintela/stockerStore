@@ -14,7 +14,7 @@ module.exports = {
     },
 
     logAdmin(req, res, next) {
-        if(req.isAuthenticated() && req.user.rol === 'administrador') {
+        if(req.isAuthenticated() && req.user.role === 'ADMIN_ROLE') {
             return next();
         }
         return res.redirect('/');

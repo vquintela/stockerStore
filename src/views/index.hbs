@@ -17,19 +17,7 @@
 <div class="container mt-3">
     <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
         <h1 class="font-weight-bold font-italic">PRODUCTOS DESTACADOS</h1>
-        <a href="/todos/todos/1" class="btn btn-sm btn-success">Ver Catalogo</a>
-    </div>
-    {{!-- NAVEGACION CATEGORIAS --}}
-    <div class="col-md-4 m-0 d-flex">
-        <h3 class="mr-auto">Categoria:</h3>
-        <div class="form-group ml-2">
-            <select name="marca_id" id="filtro-categoria" class="form-control">
-                <option value="todos">Todos</option>
-                {{#each categorias}}
-                <option value={{this._id}}>{{this.nombre}}</option>
-                {{/each}}
-            </select>
-        </div>
+        <a href="/todos/1" class="btn btn-sm btn-success">Ver Catalogo</a>
     </div>
     {{!-- LISTADO DE PRODUCTOS DESTACADOS --}}
     <div class="row">

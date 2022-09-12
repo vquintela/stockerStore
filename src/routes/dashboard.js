@@ -4,34 +4,27 @@ const moment = require("moment");
 const Users = require('../model/users');
 const Venta = require('../model/venta');
 const Producto = require('../model/producto');
-const Categoria = require('../model/categoria');
-const Marca = require('../model/marca');
 
 router.get('/', async (req, res) => {
-    if (req.user.rol === 'administrador') {
-        const cantUser = await Users.countDocuments().where('estado').equals(true);
-        const cantProd = await Producto.countDocuments().where('estado').equals(true);
-        const cantCat = await Categoria.countDocuments().where('estado').equals(true);
+    if (req.user.rol === 'ADMIN_ROLE') {
+        const cantUser = await Users.countDocuments();
+        const cantProd = await Producto.countDocuments();
         const fecha = moment();
         const prodHoy = await Venta.countDocuments().where('fecha').gte(fecha);
-        const cantMarca = await Marca.countDocuments().where('estado').equals(true);
 
         res.render('dashboard/admindash', {
             prodHoy: prodHoy,
             cantUser: cantUser,
             cantProd: cantProd,
-            cantCat: cantCat,
-            cantMarca: cantMarca,
         });
     } else {
-        const ventasUser = await Venta.countDocuments().where('_id').equals(req.user._id)
-
+        console.log(req.user)
+        const ventasUser = await Venta.countDocuments().where('id_usuario').equals(req.user._id)
 
         res.render('dashboard/userdash', {
             ventasUser: ventasUser
 
         })
-
     }
 });
 

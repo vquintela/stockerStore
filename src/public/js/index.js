@@ -79,37 +79,6 @@ if (check2) check2.addEventListener('change', e => {
     }
 });
 
-// COMENTARIO
-const comentar = (id) => {
-    const comentario = {
-        producto: id,
-        contenido: document.querySelector('#comentario').value,
-        ranqueo: parseInt(document.querySelector('input[type="radio"]:checked').value)
-    }
-    fetch(`/productos/comentar/${id}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(comentario)
-    })
-        .then(res => res.json())
-        .then(data => {
-            const comentario = document.createElement('p', {is: 'comentario'});
-            comentario.classList.add('text-muted');
-            const contenido = document.createTextNode(data.contenido); 
-            comentario.appendChild(contenido);
-            document.querySelector('[comentarios]').appendChild(comentario);
-        });
-}
-
-// BOTON COMENTARIO
-const btnComentario = document.querySelector('#btn-comentario');
-if(btnComentario) btnComentario.addEventListener('click', ()=>{
-    const producto = document.querySelector('#producto').value;
-    comentar(producto);
-});
-
 // FILTRO CATEGORIAS INDEX
 const filtroCat = document.getElementById('filtro-categoria');
 if (filtroCat) filtroCat.addEventListener('change', () => {

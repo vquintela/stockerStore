@@ -13,11 +13,7 @@ passport.use('local.signin', new LocalStrategy({
     } else {
         const match = await user.comparePassword(password, user.password)
         if (match) {
-            if(user.estado) {
-                return done(null, user, req.flash('message', 'Bienvenido'));
-            } else {
-                return done(null, false, req.flash('danger', 'Usuario no autenticado'));
-            }
+            return done(null, user, req.flash('message', 'Bienvenido'));
         }        
         return done(null, false, req.flash('danger', 'Usuario o contraseña incorrecta'));
     }

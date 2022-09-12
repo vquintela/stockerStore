@@ -7,7 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 
-const port = '3000';
+const port = '3010';
 
 const app = express();
 require('./lib/database');
@@ -52,9 +52,7 @@ app.use((req, res, next) => {
 app.use(require('./routes/index'));
 app.use(require('./routes/auth'));
 app.use('/users', require('./routes/user'));
-app.use('/marcas', require('./routes/marca'));
 app.use('/productos', require('./routes/producto'));
-app.use('/categorias', require('./routes/categoria'));
 app.use('/carrito', require('./routes/carrito'));
 app.use('/venta', require('./routes/venta'));
 app.use('/dashboard', require('./routes/dashboard'));

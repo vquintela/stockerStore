@@ -7,43 +7,9 @@
 <div class="container mt-3">
     <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
         <h1 class="font-weight-bold font-italic">LISTADO DE PRODUCTOS</h1>
-        <a href="/todos/todos/1" class="btn btn-sm btn-success">Todos</a>
+        <a href="/todos/1" class="btn btn-sm btn-success">Todos</a>
     </div>
     <div class="d-flex justify-content-end align-items-center mt-2 col-md-12">
-        {{!-- NAVEGACION CATEGORIAS --}}
-        <div class="col-md-3 m-0 d-flex align-items-center">
-            <h5 class="mr-auto">Categoria:</h5>
-            <div class="form-group mr-auto">
-                <select name="marca_id" id="filtro-categoria" class="form-control">
-                    <option value="todos">Todos</option>
-                    {{#each categorias}}
-                    <option value={{this._id}} {{#if (estado @root.actualCategoria this._id) }}selected{{/if}}>{{this.nombre}}</option>
-                    {{/each}}
-                </select>
-            </div>
-        </div>
-        {{!-- NAVEGACION SUBCATEGORIAS --}}
-        <div class="col-md-3 m-0 d-flex align-items-center">
-            <h5 class="mr-auto">Subcategoria:</h5>
-            <div class="form-group mr-auto">
-                <select name="marca_id" id="filtro-subCat" class="form-control">
-                    <option value="">Todos</option>
-                    {{#each subCategorias}}
-                    <option value={{this._id}} {{#if (estado @root.actualSubCat this._id) }}selected{{/if}}>{{this.nombre}}</option>
-                    {{/each}}
-                </select>
-            </div>
-        </div>
-        {{!-- BUSQUEDA DESTACADOS --}}
-        <div class="col-md-3 m-0 d-flex align-items-center">
-            <h5 class="mr-auto">Tipo:</h5>
-            <div class="form-group mr-auto">
-                <select name="marca_id" id="filtro-destacado" class="form-control">
-                    <option value="">Todos</option>
-                    <option value="true"{{#if destacado}}selected{{/if}}>Destacados</option>
-                </select>
-            </div>
-        </div>
         {{!-- ORDEN A-Z Y Z-A --}}
         <div class="col-md-3 m-0 d-flex align-items-center">
             <h5 class="mr-auto">Orden:</h5>

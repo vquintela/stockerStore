@@ -26,9 +26,9 @@ const generarPago = async (carrito, factura, user) => {
         },
         external_reference: `${factura}`,
         back_urls: {
-            "success": "http://localhost:3000/venta/success",
-            "failure": "http://localhost:3000/venta/failure",
-            "pending": "http://localhost:3000/venta/pending"
+            "success": "http://localhost:3010/venta/success",
+            "failure": "http://localhost:3010/venta/failure",
+            "pending": "http://localhost:3010/venta/pending"
         },
         auto_return: "approved"
     };

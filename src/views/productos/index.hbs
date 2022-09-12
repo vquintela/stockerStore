@@ -5,22 +5,6 @@
             <div>
                 <h3 class="pl-5">PRODUCTOS</h3>
             </div>
-            <div class="d-flex ml-auto align-items-center col-md-6">
-                <select class="form-control mr-4 categoria-buscar">
-                    <option value="">Categoria</option>
-                    {{#each catPadre}}
-                    <option value="{{this._id}}" {{#if (estado @root.actualCategoria this._id) }}selected{{/if}}>{{this.nombre}}</option>
-                    {{/each}}
-                </select>
-                <select class="form-control mr-4 subCat-buscar">
-                    <option value="">Subcategoria</option>
-                    {{#each subCat}}
-                    <option value="{{this._id}}" {{#if (estado @root.actualSubCategoria this._id) }}selected{{/if}}>{{this.nombre}}</option>
-                    {{/each}}
-                </select>
-                <a class="btn btn-block btn-primary mr-2 btn-sm" href="/productos/crear"><i class="fas fa-tasks text-white"></i>
-                    Crear</a>
-            </div>
         </div>
         <div class="p-4" id="contenedor">
             <div class="row justify-content-betwen" id="App">
@@ -29,66 +13,19 @@
                         <tr>
                             <th scope="col">Imagen</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Marca</th>
-                            <th scope="col">Modelo</th>
                             <th scope="col">Precio</th>
                             <th scope="col">Cantidad</th>
-                            <th scope="col">Destacado</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table table-sm text-center" id="insertar-filas">
                         {{#each productos}}
                         <tr style="height: 70px;">
                             <th>
-                                <img src="/img/{{imagen}}" alt="img" class="img-fluid" style="width: 40px;">
+                                <img src="http://localhost:3000/upload/productos/{{img}}" alt="img" class="img-fluid" style="width: 40px;">
                             </th>
                             <th>{{nombre}}</th>
-                            <th>{{marca_id.marca}}</th>
-                            <th>{{modelo}}</th>
                             <th>{{precio}}</th>
-                            <th>{{cantidad}}</th>
-                            <th>
-                                {{#if destacado}}
-                                Si
-                                {{else}}
-                                No
-                                {{/if}}
-                            </th>
-                            <th>
-                                {{#if marca_id.estado}}
-                                    {{#if estado}}
-                                    <button class="btn btn-sm btn-outline-danger estado" data-id="{{_id}}"
-                                        estado-producto={{estado}}>
-                                        Deshabilitar
-                                    </button>
-                                    {{else}}
-                                    <button class="btn btn-sm btn-outline-primary estado" data-id="{{_id}}"
-                                        estado-producto={{estado}}>
-                                        Habilitar
-                                    </button>
-                                    {{/if}}
-                                {{else}}
-                                <a href="/marcas" class="btn btn-sm btn-outline-warning">
-                                Marca Desactivada
-                                </a>
-                                {{/if}}
-                            </th>
-                            <th>
-                                <a class="btn btn-sm btn-success" href="/productos/{{_id}}">
-                                    <i class="fas fa-pen"></i>
-                                    Editar
-                                </a>
-                                <button class="btn btn-sm btn-danger eliminar" data-id="{{_id}}">
-                                    <i class="fas fa-trash-alt"></i>
-                                    Eliminar
-                                </button>
-                                <a class="btn btn-sm btn-primary" href="/productos/{{_id}}">
-                                    <i class="fas fa-comments"></i>
-                                    Comentarios
-                                </a>
-                            </th>
+                            <th>{{stock}}</th>
                         </tr>
                         {{else}}
                         <tr>

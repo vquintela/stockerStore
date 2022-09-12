@@ -20,7 +20,7 @@ const ventaSchema = new Schema({
     id_usuario: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'user'
+        ref: 'usuarios'
     },
     fecha: {
         type: Date,

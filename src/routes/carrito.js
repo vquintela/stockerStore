@@ -1,22 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const Carrito = require('../model/carrito');
-const Producto = require('../model/producto');
+const Productos = require('../model/producto');
 
 router.get("/agregar/:id/:cantidad", async (req, res) => {
   const productId = req.params.id;
-  const cantidad = req.params.cantidad
+  const cantidad = req.params.cantidad;
+  console.log(productId)
   try {
     const carrito = new Carrito(req.session.carrito ? req.session.carrito : {});
-    const producto = await Producto.findById({_id: productId});
-    if (producto.cantidad >= cantidad && cantidad > 0) {
+    const producto = await Productos.findById({ _id: productId });
+    if (producto.stock >= cantidad && cantidad > 0) {
       carrito.add(producto, productId, cantidad);
       req.session.carrito = carrito;
       req.flash('success', 'Producto agregado correctamente');
       res.redirect("/");
     } else {
       req.flash('danger', 'Cantidad fuera de stock');
-      res.redirect("/ver/productId");
+      res.redirect(`/ver/${productId}`);
     }
   } catch (error) {
     req.flash('danger', 'Ocurrio un problema agregando el producto');

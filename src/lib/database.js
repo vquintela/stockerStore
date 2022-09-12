@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const direccion = "mongodb+srv://seminario2:zzauaLfF1wgbPgd4@cluster0.smkha.mongodb.net/seminario2?retryWrites=true&w=majority"
+// const direccion = "mongodb+srv://seminario2:zzauaLfF1wgbPgd4@cluster0.smkha.mongodb.net/seminario2?retryWrites=true&w=majority"
+const direccion = "mongodb://localhost:27017/stocker"
 
 mongoose.connect(direccion, {
     useNewUrlParser: true,

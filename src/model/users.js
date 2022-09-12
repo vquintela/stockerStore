@@ -3,7 +3,12 @@ const bcrypt = require('bcryptjs');
 const generate = require('generate-password');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const userSchema = new Schema({
+const rolesValidos = {
+    values: ["ADMIN_ROLE", "USER_ROLE", "SALES_ROLE", "DEPOSIT_ROLE"],
+    message: "{VALUE} no es un rol permitido ",
+};
+
+const usuarioSchema = new Schema({
     nombre: {
         type: String,
         required: [true, '¡Campo obligatorio!'],
@@ -13,6 +18,11 @@ const userSchema = new Schema({
         type: String,
         required: [true, '¡Campo obligatorio!'],
         maxlength: [15,"¡Apellido muy largo maximo 15 caracteres!"]
+    },
+    empresa: {
+        type: String,
+        required: [true, "El nombre de la empresa es necesario"],
+        default: "Cliente Final"
     },
     email: { 
         type: String,
@@ -29,44 +39,42 @@ const userSchema = new Schema({
         type: String,
         required: [true, '¡Campo Obligatorio!']
     },
-    rol: {
+    cuit: {
         type: String,
-        enum: {
-            values: ['cliente' ,'administrador'],
-            message: '¡Debe elegir un rol!'
-        },
-        default: 'cliente'
+        unique: true,
+        required: [true, "El cuit es necesario"],
     },
-    numAut: String,
-    estado: {
-        type: Boolean,
-        default: false,
-        required: true
+    dni: { type: String, unique: true, required: [true, "El dni es necesario"] },
+    role: {
+        type: String,
+        required: true,
+        default: "USER_ROLE",
+        enum: rolesValidos,
     }
 });
 
-userSchema.methods.encryptPassword = async (password) => {
+usuarioSchema.methods.encryptPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
     return hash;
 };
 
-userSchema.methods.comparePassword = async (password, userPassword) => {
+usuarioSchema.methods.comparePassword = async (password, userPassword) => {
     return await bcrypt.compare(password, userPassword);
 };
 
-userSchema.methods.genPass = () => {
+usuarioSchema.methods.genPass = () => {
     return generate.generate({
         length: 10,
         numbers: true
     })
 }
 
-userSchema.methods.validatePass = (password) => {
+usuarioSchema.methods.validatePass = (password) => {
     const expReg = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/g;
     return expReg.test(password) 
 }
 
-userSchema.plugin(uniqueValidator, { message: '¡Email en uso elija otro!' });
+usuarioSchema.plugin(uniqueValidator, { message: '¡Ya esta en uso!' });
 
-module.exports = model('user', userSchema);
+module.exports = model('usuarios', usuarioSchema);

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const mailer = require('../lib/mailer');
 const User = require('../model/users');
 const errorMessage = require("../lib/errorMessageValidation");
 const { logueado, noLogueado } = require('../lib/auth');
@@ -23,7 +22,7 @@ router.get('/signup', noLogueado, (req, res) => {
 });
 
 router.post('/signup', async (req, res) => {
-    const {nombre, apellido, email, telefono, password, verificarPassword} = req.body;
+    const {nombre, apellido, dni, cuit, email, telefono, password, verificarPassword} = req.body;
     const usuario = req.body;
     if(password !== verificarPassword) {
         return res.render('auth/signup', { 
@@ -31,7 +30,7 @@ router.post('/signup', async (req, res) => {
             usuario: usuario
         });
     }
-    const newUser = new User({nombre, apellido, email, telefono, password});
+    const newUser = new User({nombre, apellido, dni, cuit, email, telefono, password});
     if(!newUser.validatePass(password)) {
         return res.render('auth/signup', { 
             errorpassword: 'Las contraseña no cumple los requisitos',
@@ -42,8 +41,7 @@ router.post('/signup', async (req, res) => {
     newUser.numAut = await newUser.genPass();
     try {
         await newUser.save();
-        mailer.signup(newUser.email ,newUser.nombre, newUser.apellido, newUser.numAut);
-        req.flash('success', 'Usuario Registrado, verifique su email para terminar');
+        req.flash('success', 'Usuario Registrado');
         res.redirect('/signin');
     } catch (error) {
         const mensaje = errorMessage.crearMensaje(error);
@@ -62,7 +60,6 @@ router.get('/verifica', async (req, res) => {
         res.render('auth/verificacion', {valor: false, mensaje: 'Email no registrado'});
     } else {
         if(emailUser.numAut === id) {
-            newNum = emailUser.genPass();
             await emailUser.updateOne({estado: true, numAut: newNum});
             res.render('auth/verificacion', {valor: true, mensaje: `${emailUser.nombre}, ${emailUser.apellido}`});
         } else {
@@ -80,7 +77,6 @@ router.post('/renew', logueado, async (req, res) => {
     const user = await User.findOne({email: email});
     if(user) {
         const pass = user.genPass();
-        mailer.renew(user.email, user.nombre, user.apellido, pass);
         const password = await user.encryptPassword(pass);
         await user.updateOne({ password: password });
         req.flash('success', 'Se le a enviado a su email la nueva password');
