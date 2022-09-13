@@ -139,7 +139,6 @@ router.get('/:pagina', logueado, async (req, res) => {
 });
 
 router.get('/detalle/:id', logueado, async (req, res) => {
-    console.log(req.params.id);
     const venta = await Venta.findById(req.params.id)
         .populate({path: 'detalle',
             populate: {
@@ -149,6 +148,32 @@ router.get('/detalle/:id', logueado, async (req, res) => {
             } 
         });
     res.json(venta.detalle);
+});
+
+router.get('/api/todo', async (req, res) => {
+    const ventas = await Venta.find()
+        .populate({ path: 'id_usuario', select: 'nombre apellido email' })
+        .populate({path: 'detalle',
+            populate: {
+                path: 'id_producto',
+                model: 'producto',
+                select: 'nombre descripcion'
+            } 
+        });
+    res.json(ventas);
+});
+
+router.get('/api/:id', async (req, res) => {
+    const ventas = await Venta.findById(req.params.id)
+        .populate({ path: 'id_usuario', select: 'nombre apellido email' })
+        .populate({path: 'detalle',
+            populate: {
+                path: 'id_producto',
+                model: 'producto',
+                select: 'nombre descripcion'
+            } 
+        });
+    res.json(ventas);
 });
 
 module.exports = router;
