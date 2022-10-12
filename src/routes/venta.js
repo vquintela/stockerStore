@@ -103,6 +103,7 @@ router.get('/efectivo', async(req, res) => {
             prod.cantidad = prod.cantidad - det.cantidad;
             await Producto.updateOne({_id: prod._id}, {cantidad: prod.cantidad});
         });
+        req.session.destroy();
     } catch (error) {
         console.log(error)
         return

@@ -101,4 +101,8 @@ helpers.estado = (item, actual) => {
     return (item == actual);
 }
 
+helpers.imagen = (img) => {
+    return (img == null) ? 'sinimagen.png' : img;
+}
+
 module.exports = helpers;

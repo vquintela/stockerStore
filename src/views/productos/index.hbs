@@ -21,7 +21,7 @@
                         {{#each productos}}
                         <tr style="height: 70px;">
                             <th>
-                                <img src="http://localhost:3000/upload/productos/{{img}}" alt="img" class="img-fluid" style="width: 40px;">
+                                <img src="http://localhost:3000/upload/productos/{{#imagen img}}{{/imagen}}" alt="img" class="img-fluid" style="width: 40px;">
                             </th>
                             <th>{{nombre}}</th>
                             <th>{{precio}}</th>
