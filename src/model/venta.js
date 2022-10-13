@@ -51,6 +51,9 @@ const ventaSchema = new Schema({
     },
     merchant_order_id: {
         type: String
+    },
+    direccion: {
+        type: String
     }
 });
 

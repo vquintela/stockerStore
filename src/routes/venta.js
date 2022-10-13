@@ -7,6 +7,7 @@ const { generarPago } = require('../lib/mercadopago');
 const { logAdmin, logueado } = require('../lib/auth');
 
 router.post('/pagar', async (req, res) => {
+    console.log(req.body);
     if (!req.isAuthenticated() || !req.session.carrito) {
         req.flash('danger', 'Debe ingresar al sistema para pagar');
         res.redirect('/carrito');
@@ -28,7 +29,8 @@ router.post('/pagar', async (req, res) => {
         id_usuario: req.user._id,
         total_venta: carrito.totalPrice,
         forma_pago: factura.efectivo == 'on' ? 'transferencia' : 'mercadopago',
-        detalle: detalleVenta
+        detalle: detalleVenta,
+        direccion: factura.direccion
     });
     req.session.venta = venta;
     if (factura.mercadoPago) {
