@@ -46,10 +46,10 @@
                                     <i class="fas fa-truck-moving"></i>
                                     Ver Envio
                                 </button>
-                                <button class="btn btn-sm btn-success detalle-factura" data-invoice="{{this._id}}">
+                                <a class="btn btn-sm btn-success detalle-factura" href="/pdf/{{this._id}}.pdf" target="blank">
                                     <i class="fas fa-file-invoice-dollar"></i>
                                     Ver Factura
-                                </button>
+                                </a>
                             </th>
                         </tr>
                         {{else}}

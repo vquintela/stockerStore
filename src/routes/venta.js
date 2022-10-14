@@ -5,6 +5,7 @@ const Venta = require('../model/venta');
 const Producto = require('../model/producto');
 const { generarPago } = require('../lib/mercadopago');
 const { logAdmin, logueado } = require('../lib/auth');
+const generarPDF = require('../lib/createInvoice');
 
 router.post('/pagar', async (req, res) => {
     console.log(req.body);
@@ -32,6 +33,7 @@ router.post('/pagar', async (req, res) => {
         detalle: detalleVenta,
         direccion: factura.direccion
     });
+    generarPDF.createInvoice(venta, req.user, venta._id);
     req.session.venta = venta;
     if (factura.mercadoPago) {
         urlPago = await generarPago(elementosCarrito, venta._id, req.user);
