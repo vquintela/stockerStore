@@ -41,4 +41,40 @@ const generarPago = async (carrito, factura, user) => {
     }
 }
 
-module.exports = { generarPago };
+const generarPagoRechazado = async (carrito, factura, user) => {
+    let itemsMP = [];
+    carrito.forEach(element => {
+        const item = {
+            id: element._id,
+            title: element.id_producto.nombre,
+            quantity: parseInt(element.cantidad), 
+            currency_id: 'ARS',
+            unit_price: element.precio
+        }
+        itemsMP.push(item)
+    });
+    let preference = {
+        items: itemsMP,
+        payer: {
+            name: user.nombre,
+            surname: user.apellido,
+            email: user.email,
+        },
+        external_reference: `${factura}`,
+        back_urls: {
+            "success": "http://localhost:3010/venta/aprobadoreinicio",
+            "failure": "http://localhost:3010/venta/failure",
+            "pending": "http://localhost:3010/venta/pending"
+        },
+        auto_return: "approved"
+    };
+    try {
+        const response = await mercadopago.preferences.create(preference);
+        initPoint = response.body.init_point;
+        return initPoint;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = { generarPago, generarPagoRechazado };

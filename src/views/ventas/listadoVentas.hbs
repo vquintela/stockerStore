@@ -35,7 +35,7 @@
                             <th>{{this.id_usuario.nombre}} {{this.id_usuario.apellido}}</th>
                             <th>{{#date this.fecha}}{{/date}}</th>
                             <th>$ {{this.total_venta}}</th>
-                            {{#status this.status}}{{/status}}
+                            {{#status this.status this._id this.id_usuario._id @root.userId}}{{/status}}
                             <th>{{this.forma_pago}}</th>
                             <th>
                                 <button class="btn btn-sm btn-primary detalle-venta" data-id="{{this._id}}">

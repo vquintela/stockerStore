@@ -1,0 +1,43 @@
+<div class="sidebar-index">
+    {{>sidebar}}
+</div>
+<div class="btn-sidebar" id="btn-sidebar">
+    <div class="menu-btn" id="btn-menu">
+        <i class="fas fa-bars fa-2x"></i>
+    </div>
+</div>
+<div class="container mt-5">
+    <h3 class="text-center">Confirmacion de PAGO</h3>
+    <table class="table text-center" id="filas">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Imagen</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio Unitario</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio Parcial</th>
+            </tr>
+        </thead>
+        <tbody id="insertar-filas">
+            {{#each productos.detalle}}
+            <tr>
+                <td>
+                    <img src="http://localhost:3000/upload/productos/{{#imagen this.id_producto.img}}{{/imagen}}" alt="image" class="img-fluid" style="width: 60px;">
+                </td>
+                <td>{{this.id_producto.nombre}}</td>
+                <td>{{this.id_producto.precio}}</td>
+                <td>{{this.cantidad}}</td>
+                <td>{{this.precio}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <hr>
+    <div class="row justify-content-end mr-3">
+        <strong>Total: {{precioTotal}}</strong>
+    </div>
+    <hr>
+    <div class="row justify-content-end mr-3 mb-5">
+        <a href="{{urlPago}}" class="btn btn-success mr-3 btn-sm">Pagar</a>
+    </div>
+</div>

@@ -3,7 +3,7 @@ const router = express.Router();
 const Carrito = require('../model/carrito');
 const Venta = require('../model/venta');
 const Producto = require('../model/producto');
-const { generarPago } = require('../lib/mercadopago');
+const { generarPago, generarPagoRechazado } = require('../lib/mercadopago');
 const { logAdmin, logueado } = require('../lib/auth');
 const generarPDF = require('../lib/createInvoice');
 
@@ -74,10 +74,11 @@ router.get('/failure', async(req, res) => {
     let venta;
     try {
         venta = new Venta({...req.session.venta, status, payment_id, merchant_order_id });
-        const res = await venta.save();
+        await venta.save();
     } catch (error) {
         console.log(error)
     }
+    req.session.destroy();
     res.render('ventas/failure', {
         venta: venta.total_venta
     });
@@ -88,10 +89,11 @@ router.get('/pending', async(req, res) => {
     let venta;
     try {
         venta = new Venta({...req.session.venta, status, payment_id, merchant_order_id });
-        const res = await venta.save();
+        await venta.save();
     } catch (error) {
         console.log(error)
     }
+    req.session.destroy();
     res.render('ventas/pending', {
         venta: venta.total_venta
     });
@@ -104,8 +106,8 @@ router.get('/efectivo', async(req, res) => {
         await venta.save();
         venta.detalle.forEach(async det => {
             const prod = await Producto.findById({_id: det.id_producto});
-            prod.cantidad = prod.cantidad - det.cantidad;
-            await Producto.updateOne({_id: prod._id}, {cantidad: prod.cantidad});
+            prod.stock = prod.stock - det.cantidad;
+            await Producto.updateOne({_id: prod._id}, {stock: prod.stock});
         });
         req.session.destroy();
     } catch (error) {
@@ -134,12 +136,14 @@ router.get('/:pagina', logueado, async (req, res) => {
             .lean()
     ]);
     const estados = Venta.schema.path('status').enumValues;
+    // const userId = (req.user.role === 'USER_ROLE') ? req.user._id : '';
     res.render('ventas/listadoVentas', {
         ventas: ventas,
         estados: estados,
         actualEstado: req.query.estado || '',
         paginacion: Math.ceil(count / porPagina),
         actual: pagina,
+        userId: req.user._id
     });
 });
 
@@ -179,6 +183,48 @@ router.get('/api/:id', async (req, res) => {
             } 
         });
     res.json(ventas);
+});
+
+router.get('/reiniciar/:id', async (req, res) => {
+    const venta = await Venta.findById(req.params.id)
+        .populate({path: 'detalle',
+            populate: {
+                path: 'id_producto',
+                model: 'producto',
+                select: 'nombre descripcion precio img'
+            } 
+        })
+        .lean();
+    const urlPago = await generarPagoRechazado(venta.detalle, venta._id, req.user);
+    res.render("ventas/reiniciar", {
+        productos: venta,
+        precioTotal: venta.total_venta,
+        urlPago: urlPago
+    });
+});
+
+router.get('/aprobado/reinicio', async (req, res) => {
+    console.log("hola");
+    const { external_reference, status, payment_id, merchant_order_id } = req.query;
+    
+    await Venta.updateOne(
+        {_id: external_reference}, 
+        {
+            status: status,
+            merchant_order_id: merchant_order_id,
+            payment_id: payment_id
+        }
+    );
+    const venta = await Venta.findById(external_reference);
+    venta.detalle.forEach(async det => {
+        const prod = await Producto.findById({_id: det.id_producto});
+        prod.cantidad = prod.cantidad - det.cantidad;
+        await Producto.updateOne({_id: prod._id}, {cantidad: prod.cantidad});
+    });
+    req.session.destroy();
+    res.render('ventas/success', {
+        venta: venta.total_venta
+    });
 });
 
 module.exports = router;
