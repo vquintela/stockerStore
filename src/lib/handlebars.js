@@ -113,4 +113,8 @@ helpers.imagen = (img) => {
     return (img == null) ? 'sinimagen.png' : img;
 }
 
+helpers.estadoBoton = (status) => {
+    return (status == "in_process" || status == "rejected") ? 'disabled' : '';
+}
+
 module.exports = helpers;

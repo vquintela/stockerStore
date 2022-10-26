@@ -38,15 +38,15 @@
                             {{#status this.status this._id this.id_usuario._id @root.userId}}{{/status}}
                             <th>{{this.forma_pago}}</th>
                             <th>
-                                <button class="btn btn-sm btn-primary detalle-venta" data-id="{{this._id}}">
+                                <button class="btn btn-sm btn-primary detalle-venta" data-id="{{this._id}}" {{#estadoBoton this.status}}{{/estadoBoton}}>
                                     <i class="fas fa-trash-alt"></i>
                                     Ver Detalle
                                 </button>
-                                <button class="btn btn-sm btn-warning detalle-tracking" data-tracking="{{this._id}}">
+                                <button class="btn btn-sm btn-warning detalle-tracking" data-tracking="{{this._id}}" {{#estadoBoton this.status}}{{/estadoBoton}}>
                                     <i class="fas fa-truck-moving"></i>
                                     Ver Envio
                                 </button>
-                                <a class="btn btn-sm btn-success detalle-factura" href="/pdf/{{this._id}}.pdf" target="blank">
+                                <a class="btn btn-sm btn-success detalle-factura {{#estadoBoton this.status}}{{/estadoBoton}}" href="/pdf/{{this._id}}.pdf" target="blank">
                                     <i class="fas fa-file-invoice-dollar"></i>
                                     Ver Factura
                                 </a>
