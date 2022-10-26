@@ -1,7 +1,7 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
+<nav class="navbar sticky-top navbar-expand-lg navbar-primary bg-primary">
+    {{!-- <div class="container">--}}
         <a class="navbar-brand" href="/">
-            StockerStore
+            <img src="/img/logostocker.PNG" id="logoStocker">   
         </a>
         <div>
             <ul class="navbar-nav ml-auto">
@@ -27,13 +27,13 @@
                 </li>
                 {{else}}
                 <li class="nav-item mr-2 my-auto">
-                    <a href="/signin" class="nav-link text-success btn-sm btn btn-outline-success ml-2">
+                    <a href="/signin" class="nav-link text-warning btn-sm btn btn-outline-warning ml-2">
                         <i class="fas fa-sign-in-alt mr-2"></i>
                         Ingresar
                     </a>
                 </li>
                 <li class="nav-item my-auto">
-                    <a href="/signup" class="nav-link text-primary btn-sm btn btn-outline-primary">
+                    <a href="/signup" class="nav-link text-dark btn-sm btn btn-outline-dark">
                         <i class="fas fa-user-plus"></i>
                         Registrarse
                     </a>
@@ -41,5 +41,5 @@
                 {{/if}}
             </ul>
         </div>
-    </div>
+    {{!-- </div>--}}
 </nav>
